@@ -53,4 +53,9 @@ class EndesBackend(object):
         return False
 
     def get_user(self, user_id):
-        return None
+        print user_id
+        try:
+            user = User.objects.get(pk=user_id)
+            return user
+        except User.DoesNotExist:
+            return None

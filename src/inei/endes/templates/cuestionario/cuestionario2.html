@@ -28,7 +28,7 @@
                     </span>
                             </div>
                             <div class="widget-body">
-                                <form class="form-horizontal no-margin" id="id_form">
+                                <form class="form-horizontal no-margin" id="id_form2">
                                     {% csrf_token %}
                                     <div class="tab-content" id="myTabContent">
                                         <div id="step1" class="tab-pane fade active in">
@@ -39,7 +39,7 @@
                                                         ENDES 2014</label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta1" name="pregunta1" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta1" name="parte1_pregunta1" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -50,7 +50,7 @@
                                                         <div class="controls"><label for="id_pregunta2"><b>2.-</b>¿Qué sabe usted del trabajo al que está postulando?</label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta2" name="pregunta2" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta2" name="parte1_pregunta2" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -62,7 +62,7 @@
                                                             Explique ¿por qué?</label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta3" name="pregunta3" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta3" name="parte1_pregunta3" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -78,7 +78,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta4" name="pregunta4" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta4" name="parte1_pregunta4" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -94,7 +94,7 @@
                                                             </label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta5" name="pregunta5" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta5" name="parte1_pregunta5" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -105,7 +105,7 @@
                                                         <div class="controls"><label for="id_pregunta6"><b>6.-</b>Admiraría usted a una persona muy lista pero poco confiable. Explique</label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta6" name="pregunta6" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta6" name="parte1_pregunta6" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,7 +117,7 @@
                                                             que le permitirá aportar profesionalmente a la Encuesta Demográfica y de Salud Familiar ENDES 2013?</label>
                                                         </div>
                                                         <div class="controls">
-                                                            <textarea id="id_pregunta7" name="pregunta7" class="span12" rows="3"></textarea>
+                                                            <textarea id="id_pregunta7" name="parte1_pregunta7" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -149,7 +149,7 @@
     <script type="text/javascript">
 
     function save_cuestionario(){
-        var data = $('#id_form').serialize();
+        var data = $('#id_form2').serialize();
         var options = {
             type: 'POST',
             url: "{% url 'cuestionario2' %}",

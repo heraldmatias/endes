@@ -16,6 +16,7 @@ class User(models.Model):
     is_admin = models.BooleanField(default=False)
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(default=timezone.now)
+    proyecto = models.CharField(max_length=50)
     is_active = True
 
     USERNAME_FIELD = 'username'
@@ -29,7 +30,7 @@ class User(models.Model):
         return self.get_username()
 
     def natural_key(self):
-        return (self.get_username(),)
+        return self.get_username()
 
     def is_anonymous(self):
         """
