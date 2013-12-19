@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% block css %}
+    <!-- Important. For Theming change primary-color variable in main.css  -->
+    <!--[if lte IE 7]>
+    <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
+    </script>
+    <![endif]-->
+    <style type="text/css">
+        #id_preguntas thead tr th{
+            vertical-align: middle!important; text-align: center!important;
+        }
+
+        #id_preguntas tbody tr td{
+            vertical-align: middle; text-align: center;
+        }
+        .texto-pregunta{
+            text-align: left!important;
+        }
+    </style>
+{% endblock %}
+{% block contenido %}
+
+    <!-- bootstrap css -->
+    <div class="container-fluid">
+        <div class="dashboard-wrapper">
+            <div class="left-sidebar">
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="widget">
+                            <div class="widget-header">
+                                <div class="title">
+                                    Cuestionario - Escala de automedición de estado de animo
+                                      <span class="mini-title">
+                                        Complete las preguntas con sinceridad
+                                      </span>
+                                </div>
+                            <span class="tools">
+                              <a data-original-title="Ingrese sus datos" class="fs1" aria-hidden="true" data-icon="" data-placement="bottom"></a>
+                            </span>
+                            </div>
+                            <div class="widget-body">
+                                <form class="form-horizontal no-margin" id="id_form">
+                                {% csrf_token %}
+                                    <div class="tab-content" id="myTabContent">
+                                        <div id="step1" class="tab-pane fade active in">
+                                            <div class="row-fluid">
+                                                <div class="span5">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="id_nombres">
+                                                            Nombres y Apellidos
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <input class="span12" placeholder="Nombres y apellidos" type="text"
+                                                                   id="id_nombres" name="nombres">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span4">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="id_proyecto">
+                                                            Proyecto
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <input class="span12" placeholder="Proyecto" type="text"
+                                                                   id="id_proyecto" name="proyecto">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span3">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="id_edad">
+                                                            Edad
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <input class="span12" placeholder="Edad" type="text"
+                                                                   id="id_edad" name="edad">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span5">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="id_fecha">
+                                                            Fecha de evaluación
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <input class="span12" placeholder="Fecha de evaluacion" type="text"
+                                                                   id="id_fecha" name="fecha">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span4">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="id_odei">
+                                                            ODEI
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <input class="span12" placeholder="ODEI" type="text"
+                                                                   id="id_odei" name="odei">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <table class="table table-bordered table-hover" id="id_preguntas">
+                                                    <thead>
+                                                    <tr>
+                                                    <th colspan="2" rowspan="2">Lea atentamente las siguientes frases y coloque en la columna
+                                                        el puntaje que según Usted, refleje mejor cómo se sintió durante la última semana</th>
+                                                    <th colspan="4">Opciones de puntajes</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Muy pocas veces</th>
+                                                        <th>Algunas veces</th>
+                                                        <th>Muchas veces</th>
+                                                        <th>Casi siempre</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td class="texto-pregunta">Me siento triste y decaído</td>
+                                                            <td> <input type="radio" name="rpta1[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta1[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta1[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta1[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td class="texto-pregunta">Por las mañanas me siento mejor</td>
+                                                            <td> <input type="radio" name="rpta2[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta2[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta2[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta2[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td class="texto-pregunta">Tengo ganas de llorar y a veces lloro</td>
+                                                            <td> <input type="radio" name="rpta3[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta3[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta3[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta3[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4</td>
+                                                            <td class="texto-pregunta">Me cuesta mucho dormir en la noche</td>
+                                                            <td> <input type="radio" name="rpta4[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta4[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta4[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta4[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>5</td>
+                                                            <td class="texto-pregunta">Como igual que antes</td>
+                                                            <td> <input type="radio" name="rpta5[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta5[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta5[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta5[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>6</td>
+                                                            <td class="texto-pregunta">Aún tengo deseos sexuales</td>
+                                                            <td> <input type="radio" name="rpta6[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta6[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta6[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta6[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>7</td>
+                                                            <td class="texto-pregunta">Noto que estoy adelganzado</td>
+                                                            <td> <input type="radio" name="rpta7[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta7[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta7[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta7[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>8</td>
+                                                            <td class="texto-pregunta">Estoy extreñido (a)</td>
+                                                            <td> <input type="radio" name="rpta8[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta8[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta8[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta8[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>9</td>
+                                                            <td class="texto-pregunta">El corazón me late más rápido que antes</td>
+                                                            <td> <input type="radio" name="rpta9[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta9[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta9[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta9[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>10</td>
+                                                            <td class="texto-pregunta">Me canso sin motivo</td>
+                                                            <td> <input type="radio" name="rpta10[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta10[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta10[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta10[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>11</td>
+                                                            <td class="texto-pregunta">Mi mente está tan despejada como antes</td>
+                                                            <td> <input type="radio" name="rpta11[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta11[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta11[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta11[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>12</td>
+                                                            <td class="texto-pregunta">Hago las cosas con la misma facilidad</td>
+                                                            <td> <input type="radio" name="rpta12[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta12[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta12[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta12[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>13</td>
+                                                            <td class="texto-pregunta">Me siento intranquilo y no puedo respirar</td>
+                                                            <td> <input type="radio" name="rpta13[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta13[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta13[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta13[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>14</td>
+                                                            <td class="texto-pregunta">Tengo confianza en el futuro</td>
+                                                            <td> <input type="radio" name="rpta14[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta14[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta14[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta14[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>15</td>
+                                                            <td class="texto-pregunta">Estoy más irritable que antes</td>
+                                                            <td> <input type="radio" name="rpta15[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta15[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta15[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta15[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>16</td>
+                                                            <td class="texto-pregunta">Encuentro fácil tomar decisiones</td>
+                                                            <td> <input type="radio" name="rpta16[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta16[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta16[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta16[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>17</td>
+                                                            <td class="texto-pregunta">Noto que estoy adelganzado</td>
+                                                            <td> <input type="radio" name="rpta17[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta17[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta17[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta17[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>18</td>
+                                                            <td class="texto-pregunta">Encuentro agradable vivir</td>
+                                                            <td> <input type="radio" name="rpta18[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta18[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta18[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta18[]" value="1"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>19</td>
+                                                            <td class="texto-pregunta">Creo que sería mejor para los demás si estuviera muerto (a)</td>
+                                                            <td> <input type="radio" name="rpta19[]" value="1"> </td>
+                                                            <td> <input type="radio" name="rpta19[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta19[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta19[]" value="4"> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>20</td>
+                                                            <td class="texto-pregunta">Me gustan las mismas cosas que antes</td>
+                                                            <td> <input type="radio" name="rpta20[]" value="4"> </td>
+                                                            <td> <input type="radio" name="rpta20[]" value="3"> </td>
+                                                            <td> <input type="radio" name="rpta20[]" value="2"> </td>
+                                                            <td> <input type="radio" name="rpta20[]" value="1"> </td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="next-prev-btn-container pull-right" style="margin-right: 10px;">
+                                            <a data-original-title="" href="javascript: save_cuestionario();"
+                                               class="button next" >
+                                                Terminar
+                                            </a>
+                                            <div class="clearfix">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!--/.fluid-container-->
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+
+    function save_cuestionario(){
+        var data = $('#id_form').serialize();
+        var options = {
+            type: 'POST',
+            url: "{% url 'cuestionario4' %}",
+            dataType: 'json',
+            async: true,
+            data: data,
+            beforeSend: function() {
+
+            }
+        };
+        var posting = $.ajax(options);
+
+        posting.done(function(data, textStatus, jqXHR) {
+            if(data['success']){
+                alert('Todo termino');
+            }
+        })
+        .fail(function(data, textStatus, jqXHR) {
+
+        });
+    }
+    //Tooltip
+    $('a').tooltip('hide');
+    </script>
+{% endblock %}
