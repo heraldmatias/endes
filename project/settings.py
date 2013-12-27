@@ -90,3 +90,5 @@ TEMPLATE_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTHENTICATION_BACKENDS = ('inei.auth.backends.EndesBackend',)
+
+LOGIN_URL = '/'

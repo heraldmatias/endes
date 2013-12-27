@@ -83,7 +83,7 @@
 
                                                         <div class="controls">
                                                             <input class="span6" placeholder="Edad" type="text"
-                                                                   id="id_edad" name="edad">
+                                                                   id="id_edad" name="edad" maxlength="2">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -110,7 +110,7 @@
 
                                                         <div class="controls">
                                                             <input class="span6" placeholder="Numero de hijos" type="text"
-                                                                   id="id_hijos" name="hijos">
+                                                                   id="id_hijos" name="hijos" maxlength="2">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -121,7 +121,7 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <input class="span12" placeholder="First Name" type="text"
+                                                            <input class="span12" placeholder="Escriba las edades" type="text"
                                                                    id="id_edades" name="edades">
                                                         </div>
                                                     </div>
@@ -135,11 +135,11 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <b>Sus padres&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive[]" id="vive_1" value="1">
-                                                            <b>Madre Sola&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive[]" id="vive_1" value="2">
-                                                            <b>Padre Solo&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive[]" id="vive_1" value="3">
-                                                            <b>Esposo e hijos&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive[]" id="vive_1" value="4">
-                                                            <b>Solo con hijos&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive[]" id="vive_1" value="5">
+                                                            <b>Sus padres&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_1" value="1">
+                                                            <b>Madre Sola&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_2" value="2">
+                                                            <b>Padre Solo&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_3" value="3">
+                                                            <b>Esposo e hijos&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_4" value="4">
+                                                            <b>Solo con hijos&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_5" value="5">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,13 +147,13 @@
                                             <div class="row-fluid">
                                                 <div class="span8">
                                                     <div class="control-group">
-                                                        <label class="control-label" for="puesto">
+                                                        <label class="control-label" for="id_puesto">
                                                             Puesto al que postula
                                                         </label>
 
                                                         <div class="controls">
                                                             <input class="span12" placeholder="Puesto al que postula" type="text"
-                                                                   id="puesto">
+                                                                   id="id_puesto" name="puesto">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -161,13 +161,13 @@
                                             <div class="row-fluid">
                                                 <div class="span8">
                                                     <div class="control-group">
-                                                        <label class="control-label" for="proyecto">
+                                                        <label class="control-label" for="id_proyecto">
                                                             Proyecto
                                                         </label>
 
                                                         <div class="controls">
                                                             <input class="span12" placeholder="Proyecto" type="text"
-                                                                   id="proyecto">
+                                                                   id="id_proyecto" name="proyecto">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,7 +181,7 @@
 
                                                         <div class="controls">
                                                             <input class="span12" placeholder="Tiempo de experiencia" type="text"
-                                                                   id="id_texperiencia" name="texperiencia">
+                                                                   id="id_texperiencia" name="texperiencia" maxlength="2">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -194,10 +194,10 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <b>Sí&nbsp;&nbsp;&nbsp;</b><input type="radio" name="experiencia[]" id="experiencia1" value="1">
+                                                            <b>Sí&nbsp;&nbsp;&nbsp;</b><input type="radio" name="experiencia" id="experiencia1" value="1">
                                                             <b>Cual&nbsp;&nbsp;&nbsp;</b><input class="span6" placeholder="Escriba aquí el proyecto" type="text"
-                                                                   id="id_eproyecto" name="eproyecto">
-                                                            <b>No&nbsp;&nbsp;&nbsp;</b><input type="radio" name="experiencia[]" id="experiencia1" value="2">
+                                                                   id="id_eproyecto" name="eproyecto" readonly>
+                                                            <b>No&nbsp;&nbsp;&nbsp;</b><input type="radio" name="experiencia" id="experiencia2" value="2">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,10 +210,10 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <b>INEI&nbsp;&nbsp;&nbsp;</b><input type="radio" name="ehogares[]" id="id_hogares1" value="1">
-                                                            <b>Otra Institución&nbsp;&nbsp;&nbsp;</b><input type="radio" name="ehogares[]" id="id_hogares2" value="2">
+                                                            <b>INEI&nbsp;&nbsp;&nbsp;</b><input type="radio" name="ehogares" id="id_hogares1" value="1">
+                                                            <b>Otra Institución&nbsp;&nbsp;&nbsp;</b><input type="radio" name="ehogares" id="id_hogares2" value="2">
                                                             <b>ODEI:&nbsp;&nbsp;&nbsp;</b><input class="span6" placeholder="Escriba aquí la ODEI" type="text"
-                                                                   id="id_eodei" name="eodei">
+                                                                   id="id_eodei" name="eodei" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -244,29 +244,264 @@
 {% block js %}
     <script type="text/javascript">
 
+    var blank = new RegExp('\\s{2}', 'g'),
+        letter = new RegExp('^[A-Za-zñÑá-úÁ-Ú ]+$'),
+        rletter = new RegExp('[^A-Za-zñÑá-úÁ-Ú ]','g'),
+        number = new RegExp('^[1-9]+$'),
+        rnumber = new RegExp('[^1-9]','g'),
+        edades = new RegExp('^[0-9]{1,2}(,[0-9]{1,2})*$'),
+        redades = new RegExp('^[0-9]{1,2}(,[0-9]{1,2})*$', 'g'),
+        camposValidos = new Array();
+
+    camposValidos[0] = false;//nombres
+    camposValidos[1] = false;//instruccion
+    camposValidos[2] = false;//proyecto
+    camposValidos[3] = false;//puesto
+    camposValidos[4] = false;//profesion
+    camposValidos[5] = false;//experiencia proyecto
+    camposValidos[6] = false;//experiencia odei
+    camposValidos[7] = false;//edades
+    camposValidos[8] = false;//edad
+    camposValidos[9] = false;//hijos
+    camposValidos[10] = false;//tiempo experiencia
+    camposValidos[11] = false;
+    camposValidos[12] = false;
+
     function save_cuestionario(){
         var data = $('#id_form').serialize();
-        var options = {
-            type: 'POST',
-            url: "{% url 'cuestionario1' %}",
-            dataType: 'json',
-            async: true,
-            data: data,
-            beforeSend: function() {
+        if(validar()){
+            var options = {
+                type: 'POST',
+                url: "{% url 'cuestionario1' %}",
+                dataType: 'json',
+                async: true,
+                data: data,
+                beforeSend: function() {
 
-            }
-        };
-        var posting = $.ajax(options);
+                }
+            };
+            var posting = $.ajax(options);
 
-        posting.done(function(data, textStatus, jqXHR) {
-            if(data['success']){
-                location.href = '{% url 'cuestionario2' %}';
-            }
-        })
-        .fail(function(data, textStatus, jqXHR) {
-
-        });
+            posting.done(function(data, textStatus, jqXHR) {
+                if(data['success']){
+                    location.href = '{% url 'cuestionario2' %}';
+                }
+            })
+            .fail(function(data, textStatus, jqXHR) {
+                alert('Ha ocurrido un error inesperado');
+            });
+        }
     }
+
+    function validar(){
+        if(!camposValidos[0]){
+            alert('Debe ingresar el nombre');
+            $('#id_name').focus();
+            return false;
+        }else if(!camposValidos[1]){
+            alert('Debe ingresar el grado de instrucción');
+            $('#id_instruccion').focus();
+            return false;
+        }else if(!camposValidos[4]){
+            alert('Debe ingresar la profesión');
+            $('#id_profesion').focus();
+            return false;
+        }else if(!camposValidos[2]){
+            alert('Debe ingresar el proyecto');
+            $('#id_profesion').focus();
+            return false;
+        }else if(!camposValidos[3]){
+            alert('Debe ingresar el puesto');
+            $('#id_profesion').focus();
+            return false;
+        }else if(!camposValidos[7]){
+            alert('Debe corregir las edades\nLas edades deben ir separadas por comas y debe coincidir con el número de hijos');
+            return false;
+        }
+        return true;
+    }
+
+    $('input[name="experiencia"]').on('click', function(e){
+        if (e.target.value === '1'){
+            $('#id_eproyecto').removeAttr('readonly');
+        }else{
+            $('#id_eproyecto').attr('readonly', 'readonly');
+            $('#id_eproyecto').val('');
+        }
+    });
+
+    $('input[name="ehogares"]').on('click', function(e){
+        if (e.target.value === '2'){
+            $('#id_eodei').removeAttr('readonly');
+        }else{
+            $('#id_eodei').attr('readonly', 'readonly');
+            $('#id_eodei').val('');
+        }
+    });
+
+    $('#id_name').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[0] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[0] = false;
+        }
+    });
+
+    $('#id_instruccion').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[1] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[1] = false;
+        }
+    });
+
+    $('#id_proyecto').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[2] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[2] = false;
+        }
+    });
+
+    $('#id_puesto').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[3] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[3] = false;
+        }
+    });
+
+    $('#id_profesion').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[4] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[4] = false;
+        }
+    });
+
+    $('#id_eproyecto').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[5] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[5] = false;
+        }
+    });
+
+    $('#id_eodei').on('input', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(!blank.test(valor) && letter.test(valor)){
+                $(this).val(valor);
+                camposValidos[6] = true;
+            }else{
+                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[6] = false;
+        }
+    });
+
+    $('#id_edad').on('input', function(e){
+        var valor = $.trim($(this).val());
+        if(valor !== '' ){
+            if(number.test(valor)){
+                $(this).val(valor);
+                camposValidos[8] = true;
+            }else{
+                valor = valor.replace(rnumber, '');
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[8] = false;
+        }
+    });
+
+    $('#id_hijos').on('input', function(e){
+        var valor = $.trim($(this).val());
+        if(valor !== '' ){
+            if(number.test(valor)){
+                $(this).val(valor);
+                camposValidos[9] = false;
+            }else{
+                valor = valor.replace(rnumber, '');
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[9] = false;
+        }
+    });
+
+    $('#id_texperiencia').on('input', function(e){
+        var valor = $.trim($(this).val());
+        if(valor !== '' ){
+            if(number.test(valor)){
+                $(this).val(valor);
+                camposValidos[10] = true;
+            }else{
+                valor = valor.replace(rnumber, '');
+                $(this).val(valor);
+            }
+        }else{
+            camposValidos[10] = false;
+        }
+    });
+
+    $('#id_edades').on('blur', function(e){
+        var valor = $(this).val(),
+            nhijos = parseInt($('#id_hijos').val());
+        camposValidos[7] = false;
+        if(!edades.test(valor)){
+            $(this).val(valor);
+        }else{
+            if( valor.split(',').length === nhijos){
+                camposValidos[7] = true;
+            }
+        }
+    });
+
     //Tooltip
     $('a').tooltip('hide');
     </script>

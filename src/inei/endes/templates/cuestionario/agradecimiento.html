@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% block css %}
+<!--[if lte IE 7]>
+<script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}"></script>
+<![endif]-->
+{% endblock %}
+{% block contenido %}
+<h1> Gracias por su participación </h1>
+{% endblock %}

@@ -6,6 +6,12 @@
     <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
     </script>
     <![endif]-->
+    <style type="text/css">
+
+        .oculto{
+            display: none;
+        }
+    </style>
 {% endblock %}
 {% block contenido %}
 
@@ -14,7 +20,7 @@
         <div class="dashboard-wrapper">
             <div class="left-sidebar">
                 <div class="row-fluid">
-                    <div class="span12">
+                    <div class="span8 offset2">
                         <div class="widget">
                             <div class="widget-header">
                                 <div class="title">
@@ -33,7 +39,7 @@
                                     <div class="tab-content" id="myTabContent">
                                         <div id="step1" class="tab-pane fade active in">
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for="id_pregunta1"><b>1.-</b>Mencione tres motivos por los que usted quisiera laborar en la Encuesta Demográfica y de Salud Faimiliar
                                                         ENDES 2014</label>
@@ -45,7 +51,7 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for="id_pregunta2"><b>2.-</b>¿Qué sabe usted del trabajo al que está postulando?</label>
                                                         </div>
@@ -56,7 +62,7 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for="id_pregunta3"><b>3.-</b>¿Cree usted que hay situaciones en las que esta permitida una mentira piadosa?
                                                             Explique ¿por qué?</label>
@@ -68,23 +74,21 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for="id_pregunta4"><b>4.-</b>¿Está dispuesta usted a laborar en un horario de trabajo que incluye sábados, domingos y feriados?
                                                             </label>
                                                         </div>
-                                                        <div class="controls"><label for="">Si <input type="radio" name="compromiso[]" id="comprimiso_1" value="1"> Pase a la pregunta 5
-                                                            &nbsp;&nbsp;&nbsp;No <input type="radio" name="compromiso[]" id="compromiso_2" value="1"> (Gracias por su participación)
+                                                        <div class="controls"><label for="">Si <input type="radio" name="parte1_pregunta4" id="comprimiso_1" value="SI">
+                                                            &nbsp;&nbsp;&nbsp;No <input type="radio" name="parte1_pregunta4" id="compromiso_2" value="NO">
                                                             </label>
-                                                        </div>
-                                                        <div class="controls">
-                                                            <textarea id="id_pregunta4" name="parte1_pregunta4" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="oculto">
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for=""><b>5.-</b> Se compromete usted adecuarse al horario de los informantes
                                                             (lo que implica visitas a los informantes en las noches o muy temprano)
@@ -100,7 +104,7 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for="id_pregunta6"><b>6.-</b>Admiraría usted a una persona muy lista pero poco confiable. Explique</label>
                                                         </div>
@@ -111,7 +115,7 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span9">
+                                                <div class="span10">
                                                     <div class="control-group">
                                                         <div class="controls"><label for="id_pregunta7"><b>7.-</b>En su opinión ¿Cuál es su mayor ventaja competitiva personal,
                                                             que le permitirá aportar profesionalmente a la Encuesta Demográfica y de Salud Familiar ENDES 2013?</label>
@@ -121,6 +125,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                             </div>
                                         </div>
                                         <div class="next-prev-btn-container pull-right" style="margin-right: 10px;">
@@ -171,6 +176,40 @@
 
         });
     }
+
+    function save_agradecimiento(){
+        var data = $('#id_form2').serialize();
+        var options = {
+            type: 'POST',
+            url: "{% url 'agradecimiento' %}",
+            dataType: 'json',
+            async: true,
+            data: data,
+            beforeSend: function() {
+
+            }
+        };
+        var posting = $.ajax(options);
+
+        posting.done(function(data, textStatus, jqXHR) {
+            if(data['success']){
+                location.href = '{% url 'agradecimiento' %}';
+            }else{
+                alert(data['data']);
+            }
+        })
+        .fail(function(data, textStatus, jqXHR) {
+            alert('Ha ocurrido un error inesperado');
+        });
+    }
+
+    $('input[name="parte1_pregunta4"]').on('click', function(e){
+        if (e.target.value === 'SI'){
+            $('.oculto').show();
+        }else{
+            save_agradecimiento();
+        }
+    });
     //Tooltip
     $('a').tooltip('hide');
     </script>

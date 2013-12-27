@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static from staticfiles %}
 {% block css %}
-    <!-- Important. For Theming change primary-color variable in main.css  -->
+    <!-- Important. For Theming change primary-color variable in main.css -->
     <!--[if lte IE 7]>
-    <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
-    </script>
-    <![endif]-->
+<script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
+</script>
+<![endif]-->
     <style type="text/css">
         #id_preguntas thead tr th{
             vertical-align: middle!important; text-align: center!important;
@@ -20,19 +20,18 @@
     </style>
 {% endblock %}
 {% block contenido %}
-
     <!-- bootstrap css -->
     <div class="container-fluid">
         <div class="dashboard-wrapper">
             <div class="left-sidebar">
                 <div class="row-fluid">
-                    <div class="span12">
+                    <div class="span8 offset2">
                         <div class="widget">
                             <div class="widget-header">
                                 <div class="title">
-                                    Cuestionario - Escala de automedición de estado de animo
+                                    Cuestionario - Estado de Ánimo
                                       <span class="mini-title">
-                                        Complete las preguntas con sinceridad
+                                        Complete las preguntas con honestidad
                                       </span>
                                 </div>
                             <span class="tools">
@@ -40,255 +39,137 @@
                             </span>
                             </div>
                             <div class="widget-body">
-                                <form class="form-horizontal no-margin" id="id_form4">
-                                {% csrf_token %}
+                                <form class="form-horizontal no-margin" id="id_form3">
+                                    {% csrf_token %}
                                     <div class="tab-content" id="myTabContent">
                                         <div id="step1" class="tab-pane fade active in">
                                             <div class="row-fluid">
-                                                <div class="span5">
-                                                    <div class="control-group">
-                                                        <label class="control-label" for="id_nombres">
-                                                            Nombres y Apellidos
-                                                        </label>
-
-                                                        <div class="controls">
-                                                            <input class="span12" placeholder="Nombres y apellidos" type="text"
-                                                                   id="id_nombres" name="usua">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="span4">
-                                                    <div class="control-group">
-                                                        <label class="control-label" for="id_proyecto">
-                                                            Proyecto
-                                                        </label>
-
-                                                        <div class="controls">
-                                                            <input class="span12" placeholder="Proyecto" type="text"
-                                                                   id="id_proyecto" name="pro">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row-fluid">
-                                                <div class="span3">
-                                                    <div class="control-group">
-                                                        <label class="control-label" for="id_edad">
-                                                            Edad
-                                                        </label>
-
-                                                        <div class="controls">
-                                                            <input class="span12" placeholder="Edad" type="text"
-                                                                   id="id_edad" name="edad">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row-fluid">
-                                                <div class="span5">
-                                                    <div class="control-group">
-                                                        <label class="control-label" for="id_fecha">
-                                                            Fecha de evaluación
-                                                        </label>
-
-                                                        <div class="controls">
-                                                            <input class="span12" placeholder="Fecha de evaluacion" type="text"
-                                                                   id="id_fecha" name="fecha">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="span4">
-                                                    <div class="control-group">
-                                                        <label class="control-label" for="id_odei">
-                                                            ODEI
-                                                        </label>
-
-                                                        <div class="controls">
-                                                            <input class="span12" placeholder="ODEI" type="text"
-                                                                   id="id_odei" name="odei">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row-fluid">
-                                                <table class="table table-bordered table-hover" id="id_preguntas">
+                                                <table class="table table-bordered table-hover">
                                                     <thead>
                                                     <tr>
-                                                    <th colspan="2" rowspan="2">Lea atentamente las siguientes frases y coloque en la columna
-                                                        el puntaje que según Usted, refleje mejor cómo se sintió durante la última semana</th>
-                                                    <th colspan="4">Opciones de puntajes</th>
+                                                    <th colspan="6">A continuación se presenta 10 afirmaciones con relación a su estado de ánimo, son afirmaciones que se presentan
+                                                        cpn frecuencia en nuestra población. Usted deberá responder con honestidad de acuerdo a su realidad y solo se centrará en las
+                                                        "Últimas dos semanas", es decir solo debe centrarse si en este tiempo (ÚLTIMAS DOS SEMANAS) ha tenido estos sentimientos.
+                                                        <b>SI</b> o la palabra <b>NO</b> según sea su modo de pensar o sentir. Responda con sinceridad</th>
                                                     </tr>
                                                     <tr>
-                                                        <th>Muy pocas veces</th>
-                                                        <th>Algunas veces</th>
-                                                        <th>Muchas veces</th>
-                                                        <th>Casi siempre</th>
+                                                        <th colspan="2" rowspan="2">
+                                                            INSTRUCCIONES PARA DESARROLLAR EL SIGUIENTE CUESTIONARIO<br>
+                                                            LEA LAS AFIRMACIONES UNA A UNA Y CLIQUEE SOLO UNA DE LAS ALTERNATIVAS QUE MAS SE AJUSTA A SUS SENTIMIENTOS.<br>
+                                                            SI CONSIDERA QUE "NO" PARA ALGUNA AFIRMACION CLIQUEE (A) PARA NADA <br>
+                                                            SI CONSIDERA QUE "SI" PARA ALGUNA AFIRMACION DEACUERDO AL NUMERO DE DIAS QUE TUVO ESTOS SENTIMIENTOS CLIQUEE:<br>
+                                                            LA OPCION (B) <i>VARIOS DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 1 A 6 DÍAS;<br>
+                                                            LA OPCION (C) <i>LA MAYORIA DE DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 7 A 11 DÍAS;<br>
+                                                            LA OPCION (D) <i>CASI TODOS LOS DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 12 A MAS DÍAS;<br>
+                                                            RECUERDE SE CONSIDERA ESTOS SENTIMINETOS EN LAS ÚLTIMAS 2 SEMANAS
+
+                                                        </th>
+                                                        <th>A</th>
+                                                        <th>B</th>
+                                                        <th>C</th>
+                                                        <th>D</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>PARA NADA</th>
+                                                        <th>VARIOS DÍAS <br> (1 A 6 DÍAS)</th>
+                                                        <th>LA MAYORÍA<br> DE DÍAS <br> (7 A 11 DÍAS)</th>
+                                                        <th>CASI TODOS <br>LOS DÍAS<br> (12 A MÁS DÍAS)</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td class="texto-pregunta">Me siento triste y decaído</td>
-                                                            <td> <input type="radio" name="parte3_pregunta1" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta1" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta1" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta1" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td class="texto-pregunta">Por las mañanas me siento mejor</td>
-                                                            <td> <input type="radio" name="parte3_pregunta2" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta2" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta2" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta2" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td class="texto-pregunta">Tengo ganas de llorar y a veces lloro</td>
-                                                            <td> <input type="radio" name="parte3_pregunta3" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta3" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta3" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta3" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td class="texto-pregunta">Me cuesta mucho dormir en la noche</td>
-                                                            <td> <input type="radio" name="parte3_pregunta4" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta4" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta4" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta4" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td class="texto-pregunta">Como igual que antes</td>
-                                                            <td> <input type="radio" name="parte3_pregunta5" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta5" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta5" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta5" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>6</td>
-                                                            <td class="texto-pregunta">Aún tengo deseos sexuales</td>
-                                                            <td> <input type="radio" name="parte3_pregunta6" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta6" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta6" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta6" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>7</td>
-                                                            <td class="texto-pregunta">Noto que estoy adelganzado</td>
-                                                            <td> <input type="radio" name="parte3_pregunta7" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta7" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta7" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta7" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>8</td>
-                                                            <td class="texto-pregunta">Estoy extreñido (a)</td>
-                                                            <td> <input type="radio" name="parte3_pregunta8" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta8" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta8" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta8" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>9</td>
-                                                            <td class="texto-pregunta">El corazón me late más rápido que antes</td>
-                                                            <td> <input type="radio" name="parte3_pregunta9" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta9" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta9" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta9" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>10</td>
-                                                            <td class="texto-pregunta">Me canso sin motivo</td>
-                                                            <td> <input type="radio" name="parte3_pregunta10" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta10" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta10" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta10" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>11</td>
-                                                            <td class="texto-pregunta">Mi mente está tan despejada como antes</td>
-                                                            <td> <input type="radio" name="parte3_pregunta11" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta11" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta11" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta11" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>12</td>
-                                                            <td class="texto-pregunta">Hago las cosas con la misma facilidad</td>
-                                                            <td> <input type="radio" name="parte3_pregunta12" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta12" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta12" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta12" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>13</td>
-                                                            <td class="texto-pregunta">Me siento intranquilo y no puedo respirar</td>
-                                                            <td> <input type="radio" name="parte3_pregunta13" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta13" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta13" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta13" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>14</td>
-                                                            <td class="texto-pregunta">Tengo confianza en el futuro</td>
-                                                            <td> <input type="radio" name="parte3_pregunta14" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta14" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta14" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta14" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>15</td>
-                                                            <td class="texto-pregunta">Estoy más irritable que antes</td>
-                                                            <td> <input type="radio" name="parte3_pregunta15" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta15" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta15" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta15" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>16</td>
-                                                            <td class="texto-pregunta">Encuentro fácil tomar decisiones</td>
-                                                            <td> <input type="radio" name="parte3_pregunta16" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta16" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta16" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta16" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>17</td>
-                                                            <td class="texto-pregunta">Noto que estoy adelganzado</td>
-                                                            <td> <input type="radio" name="parte3_pregunta17" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta17" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta17" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta17" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>18</td>
-                                                            <td class="texto-pregunta">Encuentro agradable vivir</td>
-                                                            <td> <input type="radio" name="parte3_pregunta18" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta18" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta18" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta18" value="1"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>19</td>
-                                                            <td class="texto-pregunta">Creo que sería mejor para los demás si estuviera muerto (a)</td>
-                                                            <td> <input type="radio" name="parte3_pregunta19" value="1"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta19" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta19" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta19" value="4"> </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>20</td>
-                                                            <td class="texto-pregunta">Me gustan las mismas cosas que antes</td>
-                                                            <td> <input type="radio" name="parte3_pregunta20" value="4"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta20" value="3"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta20" value="2"> </td>
-                                                            <td> <input type="radio" name="parte3_pregunta20" value="1"> </td>
-                                                        </tr>
-
-
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>He tenido poco interés o ganas por hacer las cosas</td>
+                                                        <td> <input type="radio" name="parte3_pregunta1" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta1" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta1" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta1" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Me he sentido triste, deprimida o sin esperanza</td>
+                                                        <td> <input type="radio" name="parte3_pregunta2" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta2" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta2" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta2" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>He tenido dificultad para dormir o mantenerme dormido o he dormido demasiado</td>
+                                                        <td> <input type="radio" name="parte3_pregunta3" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta3" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta3" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta3" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>Me he sentido cansada o tuve poca energía sin motivo que lo justifique</td>
+                                                        <td> <input type="radio" name="parte3_pregunta4" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta4" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta4" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta4" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>He tenido apetito o he comido demasiado</td>
+                                                        <td> <input type="radio" name="parte3_pregunta5" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta5" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta5" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta5" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>6</td>
+                                                        <td>He tenido dificultad para poner atención o concentrarme en las cosas que hago: Como leer
+                                                        el periódico, ver televisión, escuchar atentamente la radio o conversar con otras personas</td>
+                                                        <td> <input type="radio" name="parte3_pregunta6" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta6" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta6" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta6" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>7</td>
+                                                        <td>Me he movido o hablado más lento de lo normal o me he sentido más inquieta intranquila</td>
+                                                        <td> <input type="radio" name="parte3_pregunta7" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta7" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta7" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta7" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>8</td>
+                                                        <td>He pensado que sería mejor estar muerta o en hacerme daño</td>
+                                                        <td> <input type="radio" name="parte3_pregunta8" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta8" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta8" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta8" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>9</td>
+                                                        <td>Me he sentido mal, como que soy un fracaso o que he defraudado a mi familia o a mí misma</td>
+                                                        <td> <input type="radio" name="parte3_pregunta9" value="0"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta9" value="1"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta9" value="2"> </td>
+                                                        <td> <input type="radio" name="parte3_pregunta9" value="3"> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>10</td>
+                                                        <td>¿Estos sentimientos cuánto le han dificultado para realizar su trabajo,
+                                                            sus actividades en la casa o llevarse bien con otras personas, mucho, poco o nada?</td>
+                                                        <td colspan="4">
+                                                            <div class="span12">
+                                                            <label for="id_parte3_pregunta101" class="span4">MUCHO <input type="radio" name="parte3_pregunta10"
+                                                                                 id="id_parte3_pregunta101"
+                                                                                 value="1"></label>
+                                                            <label for="id_parte3_pregunta102" class="span4">POCO <input type="radio" name="parte3_pregunta10"
+                                                                                 id="id_parte3_pregunta102"
+                                                                                 value="2"></label>
+                                                            <label for="id_parte3_pregunta103" class="span4">NADA <input type="radio" name="parte3_pregunta10"
+                                                                                 id="id_parte3_pregunta103"
+                                                                                 value="3"></label>
+                                                                </div>
+                                                        </td>
+                                                    </tr>
                                                     </tbody>
+
                                                 </table>
                                             </div>
                                         </div>
@@ -318,7 +199,7 @@
     <script type="text/javascript">
 
     function save_cuestionario(){
-        var data = $('#id_form4').serialize();
+        var data = $('#id_form3').serialize();
         var options = {
             type: 'POST',
             url: "{% url 'cuestionario4' %}",
@@ -333,13 +214,13 @@
 
         posting.done(function(data, textStatus, jqXHR) {
             if(data['success']){
-                alert('Todo termino');
+                location.href = '{% url 'agradecimiento' %}';
             }else{
-                alert('ha ocurrido un error:'+data['data']);
+                alert(data['data']);
             }
         })
         .fail(function(data, textStatus, jqXHR) {
-
+                alert('ha ocurrido un error inesperado');
         });
     }
     //Tooltip
