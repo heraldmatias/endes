@@ -6,6 +6,7 @@
 <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
 </script>
 <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{% static 'endes/css/jquery.countdown.css' %}" />
     <style type="text/css">
         #id_preguntas thead tr th{
             vertical-align: middle!important; text-align: center!important;
@@ -44,20 +45,25 @@
                                     <div class="tab-content" id="myTabContent">
                                         <div id="step1" class="tab-pane fade active in">
                                             <div class="row-fluid">
+                                                <div class="span10">
+                                                    <span id="newPage" class="countdown "></span>
+                                                </div>
+                                            </div><br><br>
+                                            <div class="row-fluid">
                                                 <table class="table table-bordered table-hover">
                                                     <thead>
                                                     <tr>
-                                                    <th colspan="6">A continuación se presenta 10 afirmaciones con relación a su estado de ánimo, son afirmaciones que se presentan
-                                                        cpn frecuencia en nuestra población. Usted deberá responder con honestidad de acuerdo a su realidad y solo se centrará en las
+                                                    <th colspan="6">A continuación se presenta 9 afirmaciones con relación a su estado de ánimo, son afirmaciones que se presentan
+                                                        con frecuencia en nuestra población. Usted deberá responder con honestidad de acuerdo a su realidad y solo se centrará en las
                                                         "Últimas dos semanas", es decir solo debe centrarse si en este tiempo (ÚLTIMAS DOS SEMANAS) ha tenido estos sentimientos.
-                                                        <b>SI</b> o la palabra <b>NO</b> según sea su modo de pensar o sentir. Responda con sinceridad</th>
+                                                        </th>
                                                     </tr>
                                                     <tr>
                                                         <th colspan="2" rowspan="2">
                                                             INSTRUCCIONES PARA DESARROLLAR EL SIGUIENTE CUESTIONARIO<br>
                                                             LEA LAS AFIRMACIONES UNA A UNA Y CLIQUEE SOLO UNA DE LAS ALTERNATIVAS QUE MAS SE AJUSTA A SUS SENTIMIENTOS.<br>
                                                             SI CONSIDERA QUE "NO" PARA ALGUNA AFIRMACION CLIQUEE (A) PARA NADA <br>
-                                                            SI CONSIDERA QUE "SI" PARA ALGUNA AFIRMACION DEACUERDO AL NUMERO DE DIAS QUE TUVO ESTOS SENTIMIENTOS CLIQUEE:<br>
+                                                            SI CONSIDERA QUE "SI" PARA ALGUNA AFIRMACION DEACUERDO AL NUMERO DE DIAS QUE TUVO ESTOS SENTIMIENTOS CLIQUEE
                                                             LA OPCION (B) <i>VARIOS DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 1 A 6 DÍAS;<br>
                                                             LA OPCION (C) <i>LA MAYORIA DE DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 7 A 11 DÍAS;<br>
                                                             LA OPCION (D) <i>CASI TODOS LOS DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 12 A MAS DÍAS;<br>
@@ -111,7 +117,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>5</td>
-                                                        <td>He tenido apetito o he comido demasiado</td>
+                                                        <td>No he tenido apetito o he comido demasiado</td>
                                                         <td> <input type="radio" name="parte3_pregunta5" value="0"> </td>
                                                         <td> <input type="radio" name="parte3_pregunta5" value="1"> </td>
                                                         <td> <input type="radio" name="parte3_pregunta5" value="2"> </td>
@@ -128,7 +134,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td>7</td>
-                                                        <td>Me he movido o hablado más lento de lo normal o me he sentido más inquieta intranquila</td>
+                                                        <td>Me he movido o hablado más lento de lo normal o me he sentido más inquieta o intranquila</td>
                                                         <td> <input type="radio" name="parte3_pregunta7" value="0"> </td>
                                                         <td> <input type="radio" name="parte3_pregunta7" value="1"> </td>
                                                         <td> <input type="radio" name="parte3_pregunta7" value="2"> </td>
@@ -196,7 +202,17 @@
     </div>
 {% endblock %}
 {% block js %}
+    <script src="{% static 'endes/js/jquery.countdown.min.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
+    var shortly=0;
+    $('#newPage').countdown({until: shortly, onExpiry: save_cuestionario, labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
+
+    $(document).on('ready', function() {
+        shortly = new Date();
+        shortly.setSeconds(shortly.getSeconds() + 600.5);
+        $('#newPage').countdown('option', {until: shortly,
+            labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
+    });
 
     function save_cuestionario(){
         var data = $('#id_form3').serialize();

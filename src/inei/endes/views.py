@@ -1,15 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.generic.list import ListView
 from inei.endes.models import Cuestionario
 from django.views.generic import FormView, TemplateView
 from django.http.response import HttpResponseRedirect, HttpResponse
 from inei.endes.forms import LoginForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from inei.endes.forms import CuestionarioForm
 import json
-
+from inei.endes.services import response_csv
 
 __author__ = 'holivares'
+
 
 class IndexView(FormView):
     template_name = 'index.html'
@@ -23,11 +25,12 @@ class IndexView(FormView):
         if user is not None:
             if user.is_active:
                 #print self.request.user
-                id = user.id or 1
+                id = user.id or 0
+                login(self.request, user)
+                if user.is_admin:
+                    return HttpResponseRedirect('/admin/')
                 if Cuestionario.objects.filter(usuario=id).exists():
                     return HttpResponseRedirect('/agradecimiento/')
-                login(self.request, user)
-                #print self.request.user
                 return HttpResponseRedirect(self.get_success_url())
             else:
                 #cuenta deshabilitada
@@ -35,6 +38,10 @@ class IndexView(FormView):
         else:
             #login invalido
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class InstructivoView(TemplateView):
+    template_name = 'instructivo.html'
 
 
 class Cuestionario1View(TemplateView):
@@ -49,7 +56,6 @@ class Cuestionario1View(TemplateView):
 
     def post(self, request, *args, **kwargs):
         response = HttpResponse(json.dumps(self.save()), content_type="application/json")
-        #print self.request.user.__dict__
         return response
 
     def save(self):
@@ -65,9 +71,12 @@ class Cuestionario2View(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        id = self.request.user.id or 1
+        id = self.request.user.id or 0
         if Cuestionario.objects.filter(usuario=id).exists():
             return HttpResponseRedirect('/agradecimiento/')
+        if self.request.session.has_key('parte1'):
+            if not self.request.session.has_key('parte2'):
+                return HttpResponseRedirect('/cuestionario/3/')
         return super(Cuestionario2View, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -76,6 +85,7 @@ class Cuestionario2View(TemplateView):
 
     def save(self):
         self.request.session['cuestionario'] = self.request.POST
+        self.request.session['parte1'] = True
         return {
             'success': True,
             'error': None,
@@ -88,9 +98,12 @@ class Cuestionario3View(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        id = self.request.user.id or 1
+        id = self.request.user.id or 0
         if Cuestionario.objects.filter(usuario=id).exists():
             return HttpResponseRedirect('/agradecimiento/')
+        if self.request.session.has_key('parte2'):
+            if not 'parte3' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/4/')
         return super(Cuestionario3View, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -101,6 +114,7 @@ class Cuestionario3View(TemplateView):
         cuestionario = self.request.session.get('cuestionario', dict())
         cuestionario.update(self.request.POST)
         self.request.session['cuestionario'] = cuestionario
+        self.request.session['parte2'] = True
         return {
             'success': True,
             'error': None,
@@ -113,7 +127,7 @@ class Cuestionario4View(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        id = self.request.user.id or 1
+        id = self.request.user.id or 0
         if Cuestionario.objects.filter(usuario=id).exists():
             return HttpResponseRedirect('/agradecimiento/')
         return super(Cuestionario4View, self).dispatch(*args, **kwargs)
@@ -129,7 +143,7 @@ class Cuestionario4View(TemplateView):
             'data': 'Todo bien'
         }
         try:
-            id = self.request.user.id or 1
+            id = self.request.user.id or 0
             if not Cuestionario.objects.filter(usuario=id).exists():
                 cuestionario = self.request.session.get('cuestionario', dict())
                 cuestionario.update(self.request.POST)
@@ -143,18 +157,24 @@ class Cuestionario4View(TemplateView):
                         cuestionario[field] = int(v[0])
                 form = CuestionarioForm(cuestionario)
                 form.save()
-                del self.request.session['cuestionario']
+                self.request.session['parte3'] = True
+                if self.request.session.has_key('cuestionario'):
+                    del self.request.session['cuestionario']
             else:
                 response['data'] = 'Usted ya ha completado el cuestionario'
         except Exception as e:
             response['success'] = False
             response['error'] = True
-            response['data'] = e
+            response['data'] = e.message
         return response
 
 
 class AgradecimientoView(TemplateView):
     template_name = 'cuestionario/agradecimiento.html'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(AgradecimientoView, self).get(request, *args, **kwargs)
 
     def save(self):
         response = {
@@ -163,7 +183,7 @@ class AgradecimientoView(TemplateView):
             'data': 'Todo bien'
         }
         try:
-            id = self.request.user.id or 1
+            id = self.request.user.id or 0
             if not Cuestionario.objects.filter(usuario=id).exists():
                 cuestionario = self.request.session.get('cuestionario', dict())
                 cuestionario.update(self.request.POST)
@@ -179,13 +199,14 @@ class AgradecimientoView(TemplateView):
                         cuestionario[field] = int(v[0])
                 form = CuestionarioForm(cuestionario)
                 form.save()
-                del self.request.session['cuestionario']
+                if self.request.session.has_key('cuestionario'):
+                    del self.request.session['cuestionario']
             else:
                 response['data'] = 'Usted ya ha completado el cuestionario'
         except Exception as e:
             response['success'] = False
             response['error'] = True
-            response['data'] = e
+            response['data'] = e.message
         return response
 
     def post(self, request, *args, **kwargs):
@@ -195,3 +216,29 @@ class AgradecimientoView(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(AgradecimientoView, self).dispatch(*args, **kwargs)
+
+
+class AdminView(ListView):
+    template_name = 'admin/admin.html'
+    model = Cuestionario
+    paginate_by = 10
+    context_object_name = 'objects'
+
+    #def get_queryset(self):
+    #    return Cuestionario.objects.filter()
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(AdminView, self).dispatch(*args, **kwargs)
+
+
+class ReporteView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        objects = Cuestionario.objects.all()
+        return response_csv(objects, 'reporte')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_admin:
+            return HttpResponseRedirect('/agradecimiento/')
+        return super(ReporteView, self).dispatch(*args, **kwargs)

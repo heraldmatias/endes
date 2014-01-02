@@ -6,6 +6,7 @@
     <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
     </script>
     <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{% static 'endes/css/jquery.countdown.css' %}" />
     <style type="text/css">
 
         .oculto{
@@ -40,8 +41,13 @@
                                         <div id="step1" class="tab-pane fade active in">
                                             <div class="row-fluid">
                                                 <div class="span10">
+                                                    <span id="newPage" class="countdown "></span>
+                                                </div>
+                                            </div><br><br>
+                                            <div class="row-fluid">
+                                                <div class="span10">
                                                     <div class="control-group">
-                                                        <div class="controls"><label for="id_pregunta1"><b>1.-</b>Mencione tres motivos por los que usted quisiera laborar en la Encuesta Demográfica y de Salud Faimiliar
+                                                        <div class="controls"><label for="id_pregunta1"><b>1.-</b>Mencione tres motivos por los que usted quisiera laborar en la Encuesta Demográfica y de Salud Familiar
                                                         ENDES 2014</label>
                                                         </div>
                                                         <div class="controls">
@@ -151,7 +157,17 @@
     </div>
 {% endblock %}
 {% block js %}
+    <script src="{% static 'endes/js/jquery.countdown.min.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
+    var shortly=0;
+    $('#newPage').countdown({until: shortly, onExpiry: save_cuestionario, labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
+
+    $(document).on('ready', function() {
+        shortly = new Date();
+        shortly.setSeconds(shortly.getSeconds() + 600.5);
+        $('#newPage').countdown('option', {until: shortly,
+            labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
+    });
 
     function save_cuestionario(){
         var data = $('#id_form2').serialize();

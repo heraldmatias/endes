@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% block css %}
+    <!-- Important. For Theming change primary-color variable in main.css  -->
+    <!--[if lte IE 7]>
+    <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
+    </script>
+    <![endif]-->
+    <style type="text/css">
+
+        .oculto {
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block contenido %}
+
+    <!-- bootstrap css -->
+    <div class="container-fluid">
+        <div class="dashboard-wrapper">
+            <div class="left-sidebar">
+                <div class="row-fluid">
+                    <div class="span8 offset2">
+                        <div class="widget">
+                            <div class="widget-header">
+                                <div class="title">
+                                    Instructivo
+                      <span class="mini-title">
+                        LEA ATENTAMENTE
+                      </span>
+                                </div>
+                    <span class="tools">
+                      <a data-original-title="Ingrese sus datos" class="fs1" aria-hidden="true" data-icon=""
+                         data-placement="bottom"></a>
+                    </span>
+                            </div>
+                            <div class="widget-body" style="font-size: 14px;text-align: justify;">
+                                <p>Estimado(a) postulante el Instituto Nacional de Estadística e Informática Órgano
+                                    Rector del
+                                    Sistema Estadístico Nacional te da la más cordial bienvenida y te agradece tu
+                                    participación
+                                    en el Proceso de pre - selección de Personal para cubrir una de las vacantes
+                                    ofertadas por
+                                    nuestra Institución.</p>
+
+                                <p>A continuación te presentamos un cuestionario, el cual deberás contestar con la mayor
+                                    rapidez y
+                                    Sinceridad:</p>
+
+                                <p>
+                                <ul style="list-style-type:square; padding-left: 15px;">
+                                    <li>La primera parte esta conformada por 6 preguntas abiertas, tendrás <b>10 minutos
+                                        </b>para contestar todas las preguntas de la primera parte. Total 10 minutos.
+                                    </li>
+                                    <li>La segunda parte está conformado por 24 preguntas las cuales tienen 2
+                                        alternativas de respuesta SI y NO. Se te dará <b>20 minutos</b> para contestar
+                                        esta segunda parte.
+                                    </li>
+                                    <li>La tercera parte está conformada por 9 afirmaciones sobre sus sentimientos
+                                        tenidos en las dos últimas semanas, las cuales tienen cuatro alternativas de
+                                        respuesta. Se te dará <b>10 minutos</b> para contestar esta tercera parte.
+                                    </li>
+                                </ul>
+                                </p>
+                                <p style="font-weight: bold;">RECOMENDACIONES PARA EL DESARROLLO DEL CUESTIONARO</p>
+
+                                <p>
+                                <ul style="list-style-type:square; padding-left: 15px;">
+                                    <li>Deberás contestar absolutamente todas las preguntas.</li>
+                                    <li>Cada parte tiene su tiempo programado y no podrás retornar a la primera parte.
+                                    </li>
+                                    <li>Si alguna pregunta queda sin contestar se invalidara todo el cuestionario.</li>
+                                    <li>El total de tiempo de aplicación será de 40 minutos.</li>
+                                </ul>
+                                </p>
+                                <p>
+
+                                <div class="row-fluid">
+                                    <input type="checkbox" id="id_aprueba" class="span1"><label class="span4">He leido
+                                    todos los terminos y acepto</label>
+
+                                    <div class="next-prev-btn-container pull-right" style="margin-right: 10px;">
+                                        <a data-original-title="" href="{% url 'cuestionario2' %}"
+                                           class="button next">
+                                            Continuar
+                                        </a>
+
+                                        <div class="clearfix">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!--/.fluid-container-->
+    </div>
+{% endblock %}
