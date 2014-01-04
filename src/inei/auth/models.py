@@ -1,8 +1,50 @@
+from inei.auth import CommaSeparatedStrField
+
 __author__ = 'holivares'
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.hashers import (
     check_password, make_password, is_password_usable)
+
+
+class EstadoCivil(models.Model):
+    codigo = models.AutoField(primary_key=True, db_index=True)
+    detalle = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return u'%s' % self.detalle
+
+
+class Profesion(models.Model):
+    codigo = models.CharField(max_length=3, db_index=True)
+    detalle = models.CharField(max_length=70)
+
+    def __unicode__(self):
+        return u'%s' % self.detalle
+
+
+class Instruccion(models.Model):
+    codigo = models.AutoField(primary_key=True, db_index=True)
+    detalle = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return u'%s' % self.detalle
+
+
+class Proyectos(models.Model):
+    codigo = models.CharField(max_length=50, primary_key=True, db_index=True)
+    detalle = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return u'%s' % self.detalle
+
+
+class Puesto(models.Model):
+    codigo = models.AutoField(primary_key=True, db_index=True)
+    detalle = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return u'%s' % self.detalle
 
 
 class User(models.Model):
@@ -11,13 +53,32 @@ class User(models.Model):
         unique=True,
         db_index=True,
     )
-    date_of_birth = models.DateField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(default=timezone.now)
     proyecto = models.CharField(max_length=50)
     is_active = True
+    name = models.CharField(max_length=150, null=True, blank=True)
+    instruccion = models.ForeignKey(Instruccion, null=True, blank=True)
+    profesion = models.CharField(max_length=3, null=True, blank=True)
+    edad = models.IntegerField(max_length=2, null=True, blank=True)
+    civil = models.ForeignKey(EstadoCivil, null=True, blank=True )
+    hijos = models.IntegerField(max_length=2, null=True, blank=True)
+    edades = models.CommaSeparatedIntegerField(max_length=100, null=True, blank=True)
+    vive = models.IntegerField(null=True, blank=True)
+    puesto = models.ForeignKey(Puesto, null=True, blank=True)
+    proyecto = models.CharField(max_length=100, null=True, blank=True)
+    texperiencia = models.IntegerField(null=True, blank=True)
+    experiencia_inei = models.IntegerField(null=True, blank=True)
+    eproyectos_inei = CommaSeparatedStrField(max_length=500, null=True, blank=True)
+    einei = models.BooleanField(default=False)
+    tiempo_einei = models.IntegerField(null=True, blank=True)
+    eotro = models.BooleanField(default=False)
+    tiempo_eotro = models.IntegerField(null=True, blank=True)
+    odei = models.CharField(max_length=70, null=True, blank=True)
+    ozei = models.CharField(max_length=70, null=True, blank=True)
+
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['date_of_birth']
@@ -101,3 +162,5 @@ class User(models.Model):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+

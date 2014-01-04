@@ -1,6 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
+from inei.auth.forms import UserForm
+from inei.auth.models import User, Profesion, Proyectos
 from inei.endes.models import Cuestionario
 from django.views.generic import FormView, TemplateView
 from django.http.response import HttpResponseRedirect, HttpResponse
@@ -49,21 +51,54 @@ class Cuestionario1View(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
+        if self.request.session.has_key('parte0'):
+            if not 'parte1' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/2/')
+            elif not 'parte2' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/3/')
+            elif not 'parte3' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/4/')
+            else:
+                return HttpResponseRedirect('/agradecimiento/2/')
         return super(Cuestionario1View, self).dispatch(*args, **kwargs)
 
-    def get(self, request, *args, **kwargs):
-        return super(Cuestionario1View, self).get(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        ctx = super(Cuestionario1View, self).get_context_data(**kwargs)
+        ctx['form'] = UserForm()
+        ctx['profesiones'] = Profesion.objects.values('codigo', 'detalle')
+        ctx['proyectos'] = Proyectos.objects.values('codigo', 'detalle')
+        return ctx
 
     def post(self, request, *args, **kwargs):
         response = HttpResponse(json.dumps(self.save()), content_type="application/json")
         return response
 
     def save(self):
-        return {
-            'success': True,
-            'error': None,
-            'data': 'Todo bien'
-        }
+        data = dict()
+        data.update(self.request.POST)
+        for field, v in data.items():
+            if isinstance(v, list):
+                data[field] = v[0]
+        data['username'] = self.request.user.username
+        data['password'] = self.request.user.password
+        data['last_login'] = self.request.user.last_login
+
+        form = UserForm(data, instance=self.request.user)
+        if form.is_valid():
+            form.save()
+            self.request.session['parte0'] = True
+            response = {
+                'success': True,
+                'error': None,
+                'data': 'Todo bien'
+            }
+        else:
+            response = {
+                'success': False,
+                'error': True,
+                'data': form.errors
+            }
+        return response
 
 
 class Cuestionario2View(TemplateView):
@@ -129,7 +164,7 @@ class Cuestionario4View(TemplateView):
     def dispatch(self, *args, **kwargs):
         id = self.request.user.id or 0
         if Cuestionario.objects.filter(usuario=id).exists():
-            return HttpResponseRedirect('/agradecimiento/')
+            return HttpResponseRedirect('/agradecimiento2/')
         return super(Cuestionario4View, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -224,12 +259,23 @@ class AdminView(ListView):
     paginate_by = 10
     context_object_name = 'objects'
 
-    #def get_queryset(self):
-    #    return Cuestionario.objects.filter()
+    def get_context_data(self, **kwargs):
+        ctx = super(AdminView, self).get_context_data(**kwargs)
+        ctx['odeis'] = self.get_odeis()
+        return ctx
+
+    def get_queryset(self):
+        filtro = {}
+        if 'odei' in self.request.GET and self.request.GET.get('odei') != '':
+            filtro['usuario__odei'] = self.request.GET['odei']
+        return super(AdminView, self).get_queryset().filter(**filtro)
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(AdminView, self).dispatch(*args, **kwargs)
+
+    def get_odeis(self):
+        return [v[0] for v in User.objects.exclude(odei=None).distinct('odei').values_list('odei')]
 
 
 class ReporteView(TemplateView):
@@ -242,3 +288,15 @@ class ReporteView(TemplateView):
         if not self.request.user.is_admin:
             return HttpResponseRedirect('/agradecimiento/')
         return super(ReporteView, self).dispatch(*args, **kwargs)
+
+
+class Agradecimiento2View(TemplateView):
+    template_name = 'cuestionario/agradecimiento2.html'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(Agradecimiento2View, self).get(request, *args, **kwargs)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(Agradecimiento2View, self).dispatch(*args, **kwargs)

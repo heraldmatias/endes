@@ -15,7 +15,7 @@
     {% block css %}{% endblock %}
     <title>{% block titulo %}ENDES 2014{% endblock %}</title>
 </head>
-<body>
+<body {% block body_events %}{% endblock %}>
 {% include 'includes/header.html' %}
 {% block contenido %}
 {% endblock %}

@@ -53,23 +53,23 @@
                                                 <table class="table table-bordered table-hover">
                                                     <thead>
                                                     <tr>
-                                                    <th colspan="6">A continuación se presenta 9 afirmaciones con relación a su estado de ánimo, son afirmaciones que se presentan
+                                                    <th colspan="6">A continuación se presenta 9 afirmaciones con relación a su estado de ánimo, son sentimientos que se presentan
                                                         con frecuencia en nuestra población. Usted deberá responder con honestidad de acuerdo a su realidad y solo se centrará en las
                                                         "Últimas dos semanas", es decir solo debe centrarse si en este tiempo (ÚLTIMAS DOS SEMANAS) ha tenido estos sentimientos.
                                                         </th>
                                                     </tr>
                                                     <tr>
-                                                        <th colspan="2" rowspan="2">
-                                                            INSTRUCCIONES PARA DESARROLLAR EL SIGUIENTE CUESTIONARIO<br>
+                                                        <td colspan="2" rowspan="2">
+                                                            <b>INSTRUCCIONES PARA DESARROLLAR EL SIGUIENTE CUESTIONARIO</b><br>
                                                             LEA LAS AFIRMACIONES UNA A UNA Y CLIQUEE SOLO UNA DE LAS ALTERNATIVAS QUE MAS SE AJUSTA A SUS SENTIMIENTOS.<br>
-                                                            SI CONSIDERA QUE "NO" PARA ALGUNA AFIRMACION CLIQUEE (A) PARA NADA <br>
+                                                            SI CONSIDERA QUE "NO" PARA ALGUNA AFIRMACION CLIQUEE <i><b>"PARA NADA"</b></i> <br>
                                                             SI CONSIDERA QUE "SI" PARA ALGUNA AFIRMACION DEACUERDO AL NUMERO DE DIAS QUE TUVO ESTOS SENTIMIENTOS CLIQUEE
-                                                            LA OPCION (B) <i>VARIOS DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 1 A 6 DÍAS;<br>
-                                                            LA OPCION (C) <i>LA MAYORIA DE DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 7 A 11 DÍAS;<br>
-                                                            LA OPCION (D) <i>CASI TODOS LOS DIAS</i> SI LOS SENTIMIENTOS LOS TUVO DE 12 A MAS DÍAS;<br>
+                                                            LA OPCION <i><b>"VARIOS DIAS"</b></i> SI LOS SENTIMIENTOS LOS TUVO DE 1 A 6 DÍAS;<br>
+                                                            LA OPCION <i><b>"LA MAYORIA DE DIAS"</b></i> SI LOS SENTIMIENTOS LOS TUVO DE 7 A 11 DÍAS;<br>
+                                                            LA OPCION <i><b>"CASI TODOS LOS DIAS"</b></i> SI LOS SENTIMIENTOS LOS TUVO DE 12 A MAS DÍAS;<br>
                                                             RECUERDE SE CONSIDERA ESTOS SENTIMINETOS EN LAS ÚLTIMAS 2 SEMANAS
 
-                                                        </th>
+                                                        </td >
                                                         <th>A</th>
                                                         <th>B</th>
                                                         <th>C</th>
@@ -230,7 +230,7 @@
 
         posting.done(function(data, textStatus, jqXHR) {
             if(data['success']){
-                location.href = '{% url 'agradecimiento' %}';
+                location.href = '{% url 'agradecimiento2' %}';
             }else{
                 alert(data['data']);
             }

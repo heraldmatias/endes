@@ -34,7 +34,6 @@
                             </div>
                             <div class="widget-body" >
                                 <form class="form-horizontal no-margin" id="id_form" name="form" method="GET">
-                                    {% csrf_token %}
 
                                 <div class="row-fluid">
                                     <div class="span8">
@@ -44,8 +43,13 @@
                                             </label>
 
                                             <div class="controls">
-                                                <input class="span6" placeholder="Escriba aquí la ODEI" type="text"
-                                                       id="id_eodei" name="eodei">
+                                                <select name='odei'>
+                                                    <option value="">TODOS</option>
+                                                    {% for odei in odeis %}
+                                                        <option value="{{ odei }}">{{ odei }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <input type="submit" value="buscar" class="btn btn-primary">
                                                 <a href="{% url 'reporte' %}" class="btn btn-primary">Imprimir</a>
                                             </div>
                                         </div>
@@ -65,7 +69,7 @@
                                         {% for object in objects %}
                                             <tr>
                                                 <td>{{ object.usuario }}</td>
-                                                <td>{{ object.get_estado1 }}</td>
+                                                <td>{{ object.get_estado1|safe }}</td>
                                                 <td>{{ object.get_estado2|safe }}</td>
                                                 <td>{{ object.get_estado3 }}</td>
                                             </tr>
