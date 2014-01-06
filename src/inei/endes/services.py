@@ -77,7 +77,7 @@ def response_csv(queryset, filename):
         for object in objects:
             c = 0
             c += 1
-            ws0.write_merge(r, r + 3, c, c, object.usuario.name, style)
+            ws0.write_merge(r, r + 3, c, c, object.usuario.get_full_name(), style)
             parte1 = get_estado1(object)
             parte2 = get_estado2(object)
             parte3 = get_estado3(object)

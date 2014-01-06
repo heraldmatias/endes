@@ -46,18 +46,18 @@ class IndexView(FormView):
 class InstructivoView(TemplateView):
     template_name = 'instructivo.html'
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        if self.request.session.has_key('parte0'):
-            if not 'parte1' in self.request.session:
-                return HttpResponseRedirect('/cuestionario/2/')
-            elif not 'parte2' in self.request.session:
-                return HttpResponseRedirect('/cuestionario/3/')
-            elif not 'parte3' in self.request.session:
-                return HttpResponseRedirect('/cuestionario/4/')
-            else:
-                return HttpResponseRedirect('/agradecimiento/2/')
-        return super(InstructivoView, self).dispatch(*args, **kwargs)
+    #@method_decorator(login_required)
+    #def dispatch(self, *args, **kwargs):
+    #    if self.request.session.has_key('parte0'):
+    #        if not 'parte1' in self.request.session:
+    #            return HttpResponseRedirect('/cuestionario/2/')
+    #        elif not 'parte2' in self.request.session:
+    #            return HttpResponseRedirect('/cuestionario/3/')
+    #        elif not 'parte3' in self.request.session:
+    #            return HttpResponseRedirect('/cuestionario/4/')
+    #        else:
+    #            return HttpResponseRedirect('/agradecimiento/2/')
+    #    return super(InstructivoView, self).dispatch(*args, **kwargs)
 
 class Cuestionario1View(TemplateView):
     template_name = 'cuestionario/cuestionario1.html'
