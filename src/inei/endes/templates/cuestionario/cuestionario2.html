@@ -101,11 +101,8 @@
                                                             (lo que implica visitas a los informantes en las noches o muy temprano)
                                                             </label>
                                                         </div>
-                                                        <div class="controls"><label for="id_pregunta5">Si me comprometo<input type="radio" name="comprometo" id="id_comprometo" value="1">
+                                                        <div class="controls"><label for="id_pregunta5">Si me comprometo<input type="radio" name="parte1_pregunta5" id="id_parte1_pregunta5" value="1">
                                                             </label>
-                                                        </div>
-                                                        <div class="controls">
-                                                            <textarea id="id_pregunta5" name="parte1_pregunta5" class="span12" rows="3"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -174,7 +171,6 @@
             pregunta2 = $('#id_pregunta2'),
             pregunta3 = $('#id_pregunta3'),
             pregunta4 = $('#comprimiso_1'),
-            pregunta5 = $('#id_pregunta5'),
             pregunta6 = $('#id_pregunta6'),
             pregunta7 = $('#id_pregunta7');
         if($.trim(pregunta1.val())===''){
@@ -202,13 +198,6 @@
         if(pregunta4.is(':checked')){
             pregunta4.parent().parent().removeClass('error');
             if($.trim(pregunta4.val())==='SI'){
-                if($.trim(pregunta5.val())===''){
-                    pregunta5.focus();
-                    pregunta5.parent().parent().addClass('error');
-                    return false;
-                }else{
-                    pregunta5.parent().parent().removeClass('error');
-                }
                 if($.trim(pregunta6.val())===''){
                     pregunta6.focus();
                     pregunta6.parent().parent().addClass('error');

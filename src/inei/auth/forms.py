@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
+from django.core.exceptions import ValidationError
 from inei.auth.models import User
 
 __author__ = 'holivares'
@@ -11,10 +13,56 @@ class UserForm(forms.ModelForm):
         super(UserForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             if field not in ('eproyectos_inei', 'vive_otro', 'edades', 'ozei', 'hijos', 'is_admin', 'eotro',
-            'anos_eotro', 'meses_eotro', 'institucion_eotro', 'anos_einei', 'meses_einei', 'einei'):
+                             'anos_eotro', 'meses_eotro', 'institucion_eotro', 'anos_einei', 'meses_einei', 'einei'):
                 self.fields[field].required = True
         if self.data.get('experiencia_inei') == '1':
             self.fields['eproyectos_inei'].required = True
+        if self.data.get('vive') == '6':
+            self.fields['vive_otro'].required = True
+
+
+    def clean_edades(self):
+        cleaned_data = self.cleaned_data
+        hijos = cleaned_data['hijos']
+        if 'edad' in cleaned_data:
+            edad = (cleaned_data['edad']-10)
+            edades = cleaned_data['edades'].split(',')
+            if hijos > 0:
+                if hijos != len(edades):
+                    raise ValidationError('corregir edades')
+                for hedad in edades:
+                    if int(hedad) > edad:
+                        raise ValidationError('corregir edades')
+        return hijos
+
+    def clean_anos_experiencia(self):
+        cleaned_data = self.cleaned_data
+        experiencia = cleaned_data['anos_experiencia']
+        if 'edad' in cleaned_data:
+            edad = (cleaned_data['edad']-18)
+            if experiencia > edad:
+                raise ValidationError('corregir los años de experiencia')
+        return experiencia
+
+    # def clean_meses_experiencia(self):
+    #     cleaned_data = self.cleaned_data
+    #     mexperiencia = cleaned_data['meses_experiencia']
+    #     aexperiencia = cleaned_data['anos_experiencia']*12
+    #     experiencia = (mexperiencia+aexperiencia) / 12
+    #     if 'edad' in cleaned_data:
+    #         edad = (cleaned_data['edad']-18)
+    #         if experiencia > edad:
+    #             raise ValidationError('corregir los años de experiencia')
+    #     return mexperiencia
+    #
+    # def clean_anos_einei(self):
+    #     cleaned_data = self.cleaned_data
+    #     aexperiencia = cleaned_data['anos_einei']
+    #     if 'anos_experiencia' in cleaned_data:
+    #         experiencia = cleaned_data['anos_experiencia']
+    #         if aexperiencia > experiencia:
+    #             raise ValidationError('corregir los años de experiencia')
+    #     return aexperiencia
 
     class Meta:
         model = User
@@ -77,7 +125,7 @@ class UserForm(forms.ModelForm):
             }),
             'edades': forms.TextInput(attrs={
                 'class': 'span12',
-                'data-original-title': 'Escriba la(s) edad(es) de su(s) hijo(s). La cantidad de edades ingresadas debe ser la misma que la cantidad de hijos',
+                'data-original-title': 'Escriba la(s) edad(es) de su(s) hijo(s) separadas por comas. La cantidad de edades ingresadas debe ser la misma que la cantidad de hijos',
                 'data-placement': 'top',
                 'placeholder': 'Edad(es)',
                 'disabled': 'disabled'
@@ -93,17 +141,19 @@ class UserForm(forms.ModelForm):
                 'class': 'span5 numero',
                 'data-original-title': 'Escriba el número de años de experiencia laboral',
                 'data-placement': 'top',
-                'placeholder': 'Años'
+                'placeholder': 'Años',
+                'maxlength': 2
             }),
             'meses_experiencia': forms.TextInput(attrs={
                 'class': 'span5 numero',
-                'data-original-title': 'Escriba el número de meses de experiencia laboral',
+                'data-original-title': 'Escriba el número de meses de experiencia laboral. Debe ser menor a 12.',
                 'data-placement': 'top',
-                'placeholder': 'Meses'
+                'placeholder': 'Meses',
+                'maxlength': 2
             }),
-            'odei': forms.TextInput(attrs={
-                'class': 'span6 texto',
-                'data-original-title': 'Escriba la ODEI a la que postula',
+            'odei': forms.Select(attrs={
+                'class': 'span6',
+                'data-original-title': 'Escoja la ODEI a la que postula',
                 'data-placement': 'top',
                 'placeholder': 'ODEI'
             }),
@@ -112,28 +162,32 @@ class UserForm(forms.ModelForm):
                 'data-original-title': 'Escriba el número de años de experiencia laboral en INEI',
                 'data-placement': 'top',
                 'placeholder': 'Años',
-                'disabled': 'disabled'
+                'disabled': 'disabled',
+                'maxlength': 2
             }),
             'meses_einei': forms.TextInput(attrs={
                 'class': 'span2 numero',
-                'data-original-title': 'Escriba el número de meses de experiencia laboral en INEI',
+                'data-original-title': 'Escriba el número de meses de experiencia laboral en INEI. Debe ser menor a 12.',
                 'data-placement': 'top',
                 'placeholder': 'Meses',
-                'disabled': 'disabled'
+                'disabled': 'disabled',
+                'maxlength': 2
             }),
             'anos_eotro': forms.TextInput(attrs={
                 'class': 'span2 numero',
                 'data-original-title': 'Escriba el número de años de experiencia laboral en otra institución',
                 'data-placement': 'top',
                 'placeholder': 'Años',
-                'disabled': 'disabled'
+                'disabled': 'disabled',
+                'maxlength': 2
             }),
             'meses_eotro': forms.TextInput(attrs={
                 'class': 'span2 numero',
-                'data-original-title': 'Escriba el número de meses de experiencia laboral en otra institución',
+                'data-original-title': 'Escriba el número de meses de experiencia laboral en otra institución. Debe ser menor a 12.',
                 'data-placement': 'top',
                 'placeholder': 'Meses',
-                'disabled': 'disabled'
+                'disabled': 'disabled',
+                'maxlength': 2
             }),
             'institucion_eotro': forms.TextInput(attrs={
                 'class': 'span5 texto',

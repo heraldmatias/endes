@@ -2,7 +2,7 @@ __author__ = 'holivares'
 
 from django.conf.urls import patterns, url
 from inei.endes.views import (IndexView, Cuestionario1View, Cuestionario2View,  Cuestionario3View, Cuestionario4View,
-                              AgradecimientoView, InstructivoView, AdminView, ReporteView, Agradecimiento2View)
+                              AgradecimientoView, InstructivoView, AdminView, ReporteView, Agradecimiento2View, OdeiView, Odei2View)
 
 urlpatterns = patterns('',
                        url(r'^$', IndexView.as_view(), name='index'),
@@ -15,4 +15,6 @@ urlpatterns = patterns('',
                        url(r'^instructivo/$', InstructivoView.as_view(), name='instructivo'),
                        url(r'^admin/$', AdminView.as_view(), name='admin'),
                        url(r'^reporte/$', ReporteView.as_view(), name='reporte'),
+                       url(r'^odeis/$', OdeiView.as_view(), name='odeis'),
+                       url(r'^odeis2/$', Odei2View.as_view(), name='odeis2'),
 )

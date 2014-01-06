@@ -8,9 +8,39 @@ from django.utils import timezone
 from django.contrib.auth.hashers import (
     check_password, make_password, is_password_usable)
 
+
 def validate_edad(value):
     if value < 18:
         raise ValidationError('Su edad debe ser mayor a 18')
+
+
+def validate_meses(value):
+    if value > 11:
+        raise ValidationError('Los meses deben ser menores a 12')
+
+
+def validate_anos(value):
+    if value > 60:
+        raise ValidationError(u'Los años deben ser menores a 60')
+
+
+class Region(models.Model):
+    codigo = models.CharField(max_length=2, primary_key=True, db_index=True)
+    descripcion = models.CharField(max_length=40, db_index=True)
+
+
+class Odei(models.Model):
+    region = models.ForeignKey(Region)
+    provincia = models.CharField(max_length=2, db_index=True)
+    descripcion = models.CharField(max_length=70)
+    odei = models.CharField(max_length=70, db_index=True)
+
+    class Meta:
+        unique_together = ('region', 'provincia')
+
+    def __unicode__(self):
+        return u'%s' % self.odei
+
 
 class EstadoCivil(models.Model):
     codigo = models.AutoField(primary_key=True, db_index=True)
@@ -78,23 +108,20 @@ class User(models.Model):
     puesto = models.ForeignKey(Puesto, null=True, blank=True)
     proyecto = models.CharField(max_length=100, null=True, blank=True)
     anos_experiencia = models.IntegerField(u'Años de experiencia laboral',
-                                           null=True, blank=True)
+                                           null=True, blank=True, validators=[validate_anos])
     meses_experiencia = models.IntegerField(u'Meses de experiencia laboral',
-                                            null=True, blank=True)
+                                            null=True, blank=True, validators=[validate_meses])
     experiencia_inei = models.IntegerField(null=True, blank=True)
     eproyectos_inei = models.CharField(max_length=500, null=True, blank=True)
     einei = models.BooleanField(default=False)
-    anos_einei = models.IntegerField(null=True, blank=True)
-    meses_einei = models.IntegerField(null=True, blank=True)
+    anos_einei = models.IntegerField(null=True, blank=True, validators=[validate_anos])
+    meses_einei = models.IntegerField(null=True, blank=True, validators=[validate_meses])
     eotro = models.BooleanField(default=False)
     institucion_eotro = models.CharField(max_length=100, null=True, blank=True)
-    anos_eotro = models.IntegerField(null=True, blank=True)
-    meses_eotro = models.IntegerField(null=True, blank=True)
-    odei = models.CharField(u'Oficina Departamental de Estadística e Informática',
-                            max_length=70, null=True, blank=True)
-    ozei = models.CharField(max_length=70, null=True, blank=True)
-
-
+    anos_eotro = models.IntegerField(null=True, blank=True, validators=[validate_anos])
+    meses_eotro = models.IntegerField(null=True, blank=True, validators=[validate_meses])
+    odei = models.ForeignKey(Odei, verbose_name=u'Region',
+                             null=True, blank=True)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['date_of_birth']
 
@@ -146,7 +173,7 @@ class User(models.Model):
 
     def get_full_name(self):
         # The user is identified by their username address
-        return self.username
+        return u'%s %s %s' % (self.nombres, self.apellido_paterno, self.apellido_materno)
 
     def get_short_name(self):
         # The user is identified by their username address

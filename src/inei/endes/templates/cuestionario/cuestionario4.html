@@ -216,13 +216,15 @@
     });
 
     $.each($('input'), function(k, v){
-        $(v).on('click', function(e){
-            if(parseInt(e.target.value) > 0){
-                $('#id_tabla tbody').find('tr:last').show();
-            }else{
-                $('#id_tabla tbody').find('tr:last').hide();
-            }
-        });
+        if(v !== 'parte3_pregunta10'){
+            $(v).on('click', function(e){
+                if(calcular()>0){
+                    $('#id_tabla tbody').find('tr:last').show();
+                }else{
+                    $('#id_tabla tbody').find('tr:last').hide();
+                }
+            });
+        }
     });
 
     function validar(){

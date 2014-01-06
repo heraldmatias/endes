@@ -52,3 +52,24 @@
         </div>
     </div>
 {% endblock %}
+{% block js %}
+<script type="text/javascript">
+    var regexdni = new RegExp('^[0-9]{8}$'),
+        regexfecha = new RegExp('^[0-9]{1,2}-[0-9]{1,2}-[1]{1}[9]{1}[0-9]{2}$');
+
+    $('.login-wrapper').on('submit', function(){
+        if(!regexdni.test($('#id_username').val())){
+            alert('ingrese un DNI valido');
+            return false;
+        }
+        if(!regexfecha.test($('#id_password').val())){
+            alert('ingrese su fecha de nacimiento correcta');
+            return false;
+        }
+        return true;
+    });
+
+    $('input').tooltip('hide');
+
+</script>
+{% endblock %}

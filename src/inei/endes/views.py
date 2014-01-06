@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from inei.auth.forms import UserForm
-from inei.auth.models import User, Profesion, Proyectos
+from inei.auth.models import User, Profesion, Proyectos, Odei, Region
 from inei.endes.models import Cuestionario
 from django.views.generic import FormView, TemplateView
 from django.http.response import HttpResponseRedirect, HttpResponse
@@ -12,6 +12,7 @@ from django.contrib.auth import login, authenticate, logout
 from inei.endes.forms import CuestionarioForm
 import json
 from inei.endes.services import response_csv
+from django.views.decorators.csrf import csrf_exempt
 
 __author__ = 'holivares'
 
@@ -78,7 +79,8 @@ class Cuestionario1View(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super(Cuestionario1View, self).get_context_data(**kwargs)
         ctx['form'] = UserForm()
-        ctx['profesiones'] = Profesion.objects.values('codigo', 'detalle')
+        ctx['profesiones'] = Profesion.objects.values('codigo', 'detalle').order_by('detalle')
+        ctx['regiones'] = Region.objects.values('codigo', 'descripcion').order_by('descripcion')
         ctx['proyectos'] = Proyectos.objects.values('codigo', 'detalle')
         return ctx
 
@@ -93,7 +95,6 @@ class Cuestionario1View(TemplateView):
             if isinstance(v, list):
                 if field == 'eproyectos_inei':
                     data[field] = ','.join(v)
-                    print data[field]
                 else:
                     data[field] = v[0]
         data['username'] = self.request.user.username
@@ -334,6 +335,9 @@ class AgradecimientoView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         response = HttpResponse(json.dumps(self.save()), content_type="application/json")
+        response.delete_cookie('vparte1')
+        response.delete_cookie('vparte2')
+        response.delete_cookie('vparte3')
         return response
 
     @method_decorator(login_required)
@@ -355,7 +359,7 @@ class AdminView(ListView):
     def get_queryset(self):
         filtro = {}
         if 'odei' in self.request.GET and self.request.GET.get('odei') != '':
-            filtro['usuario__odei'] = self.request.GET['odei']
+            filtro['usuario__odei__odei'] = self.request.GET['odei']
         return super(AdminView, self).get_queryset().filter(**filtro)
 
     @method_decorator(login_required)
@@ -363,7 +367,7 @@ class AdminView(ListView):
         return super(AdminView, self).dispatch(*args, **kwargs)
 
     def get_odeis(self):
-        return [v[0] for v in User.objects.exclude(odei=None).distinct('odei').values_list('odei')]
+        return [v[0] for v in Odei.objects.exclude(odei=None).distinct('odei').values_list('odei', 'odei')]
 
 
 class ReporteView(TemplateView):
@@ -388,3 +392,45 @@ class Agradecimiento2View(TemplateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(Agradecimiento2View, self).dispatch(*args, **kwargs)
+
+
+class OdeiView(TemplateView):
+    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(OdeiView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        response = HttpResponse(json.dumps(self.get_odeis()), content_type="application/json")
+        return response
+
+    def get_odeis(self):
+        region = self.request.POST['region']
+        objects = list(Odei.objects.filter(region_id=region).values('id', 'descripcion').order_by('descripcion'))
+        response = {
+            'success': True,
+            'data': objects,
+            'error': False
+        }
+        return response
+
+
+class Odei2View(TemplateView):
+    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(Odei2View, self).dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        response = HttpResponse(json.dumps(self.get_odeis()), content_type="application/json")
+        return response
+
+    def get_odeis(self):
+        provincia = self.request.POST['provincia']
+        objects = Odei.objects.get(pk=provincia).odei
+        response = {
+            'success': True,
+            'data': objects,
+            'error': False
+        }
+        return response

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from inei.auth.models import User
+from inei.auth.models import User, Odei
 import csv
 from django.http import HttpResponse
 from django.template import loader, Context
@@ -68,7 +68,7 @@ def response_csv(queryset, filename):
     ws0.write(0, 5, 'PARTE 3', style_header)
     ws0.write(0, 6, 'DIAGNOSTICO', style_header)
     for odei in odeis:
-        objects = queryset.filter(usuario__odei=odei)
+        objects = queryset.filter(usuario__odei__odei=odei)
         c = 0
         items = (objects.count() * 4)-1
         if items < 0:
@@ -135,7 +135,7 @@ def get_estado3(cuestionario):
             puntaje = 'EPISODIO DEPRESIVO MAYOR MODERADA'
         elif 20 <= resultado <= 27:
             puntaje = 'EPISODIO DEPRESIVO MAYOR SEVERA'
-    elif (resultado >= 0 and resultado < 10) or (resultado > 10 and pregunta10 == 3):
+    elif (resultado >= 0 and resultado < 10) or (resultado > 10 and pregunta10 == 3) or (resultado == 0 and pregunta10 == 3):
         puntaje = u'NO TIENE DEPRESIÓN'
     else:
         puntaje = 'NO COMPLETO EL CUESTIONARIO'
@@ -175,4 +175,4 @@ def get_tipo(valor):
 
 
 def get_odeis():
-    return [v[0] for v in User.objects.exclude(odei=None).distinct('odei').values_list('odei')]
+    return [v[0] for v in Odei.objects.exclude(odei=None).distinct('odei').values_list('odei')]

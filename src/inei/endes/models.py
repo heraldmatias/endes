@@ -51,7 +51,7 @@ class Cuestionario(models.Model):
     parte3_pregunta7 = models.IntegerField(null=True, blank=True)
     parte3_pregunta8 = models.IntegerField(null=True, blank=True)
     parte3_pregunta9 = models.IntegerField(null=True, blank=True)
-    parte3_pregunta10 = models.IntegerField(null=True, blank=True)
+    parte3_pregunta10 = models.IntegerField(null=True, blank=True, default=3)
     parte3_tiempo = models.IntegerField(null=True, blank=True)
 
     def get_estado1(self):
@@ -83,7 +83,7 @@ class Cuestionario(models.Model):
                 puntaje = 'EPISODIO DEPRESIVO MAYOR MODERADA = ' + str(resultado)
             elif resultado >= 20 and resultado <= 27:
                 puntaje = 'EPISODIO DEPRESIVO MAYOR SEVERA = ' + str(resultado)
-        elif (resultado>=0 and pregunta10 < 10) and pregunta10 == 3:
+        elif (resultado >= 0 and resultado < 10) or (resultado > 10 and pregunta10 == 3) or (resultado == 0 and pregunta10 == 3):
             puntaje = 'NO TIENE DEPRESIÓN = ' + str(resultado)
         else:
             puntaje = 'NO COMPLETO EL CUESTIONARIO'
