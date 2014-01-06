@@ -227,12 +227,23 @@
 
     $(document).on('ready', function() {
         shortly = new Date();
-        shortly.setSeconds(shortly.getSeconds() + 1200.5);
+        shortly.setSeconds(shortly.getSeconds() + (1200.5-{{ parte2_tiempo }}));
         $('#newPage').countdown('option', {until: shortly,
             labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
     });
 
+    function validar(){
+        var rptas = 0;
+        $.each($('input'), function(k, v){
+            if($(v).is(':checked')){
+                rptas += 1;
+            }
+        });
+        return 24 === rptas;
+    }
+
     function save_cuestionario(){
+        if (validar()){
         var data = $('#id_form3').serialize();
         var options = {
             type: 'POST',
@@ -256,6 +267,7 @@
         .fail(function(data, textStatus, jqXHR) {
                 alert('ha ocurrido un error inesperado');
         });
+        }
     }
     //Tooltip
     $('a').tooltip('hide');

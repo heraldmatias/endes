@@ -18,3 +18,15 @@ class CommaSeparatedStrField(CharField):
         }
         defaults.update(kwargs)
         return super(CommaSeparatedStrField, self).formfield(**defaults)
+
+
+from django.forms.forms import BoundField
+
+def add_control_label(f):
+    def control_label_tag(self, contents=None, attrs=None):
+        if attrs is None: attrs = {}
+        attrs['class'] = 'control-label'
+        return f(self, contents, attrs)
+    return control_label_tag
+
+BoundField.label_tag = add_control_label(BoundField.label_tag)

@@ -50,7 +50,7 @@
                                                 </div>
                                             </div><br><br>
                                             <div class="row-fluid">
-                                                <table class="table table-bordered table-hover">
+                                                <table class="table table-bordered table-hover" id="id_tabla">
                                                     <thead>
                                                     <tr>
                                                     <th colspan="6">A continuación se presenta 9 afirmaciones con relación a su estado de ánimo, son sentimientos que se presentan
@@ -209,10 +209,45 @@
 
     $(document).on('ready', function() {
         shortly = new Date();
-        shortly.setSeconds(shortly.getSeconds() + 600.5);
+        shortly.setSeconds(shortly.getSeconds() + (600.5-{{ parte3_tiempo }}));
         $('#newPage').countdown('option', {until: shortly,
             labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
+        $('#id_tabla tbody').find('tr:last').hide();
     });
+
+    $.each($('input'), function(k, v){
+        $(v).on('click', function(e){
+            if(parseInt(e.target.value) > 0){
+                $('#id_tabla tbody').find('tr:last').show();
+            }else{
+                $('#id_tabla tbody').find('tr:last').hide();
+            }
+        });
+    });
+
+    function validar(){
+        var rptas = 0;
+        $.each($('input'), function(k, v){
+            if($(v).is(':checked')){
+                rptas += 1;
+            }
+        });
+        if(calcular()>0){
+            return 10 === rptas;
+        }else{
+            return 9 === rptas;
+        }
+    }
+
+    function calcular(){
+        var total = 0;
+        $.each($('input'), function(k, v){
+            if($(v).is(':checked')){
+                total += parseInt($(v).val());
+            }
+        });
+        return total;
+    }
 
     function save_cuestionario(){
         var data = $('#id_form3').serialize();
@@ -236,7 +271,7 @@
             }
         })
         .fail(function(data, textStatus, jqXHR) {
-                alert('ha ocurrido un error inesperado');
+            alert('ha ocurrido un error inesperado');
         });
     }
     //Tooltip

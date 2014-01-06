@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
@@ -32,7 +33,7 @@ class IndexView(FormView):
                 if user.is_admin:
                     return HttpResponseRedirect('/admin/')
                 if Cuestionario.objects.filter(usuario=id).exists():
-                    return HttpResponseRedirect('/agradecimiento/')
+                    return HttpResponseRedirect('/agradecimiento2/')
                 return HttpResponseRedirect(self.get_success_url())
             else:
                 #cuenta deshabilitada
@@ -45,6 +46,18 @@ class IndexView(FormView):
 class InstructivoView(TemplateView):
     template_name = 'instructivo.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        if self.request.session.has_key('parte0'):
+            if not 'parte1' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/2/')
+            elif not 'parte2' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/3/')
+            elif not 'parte3' in self.request.session:
+                return HttpResponseRedirect('/cuestionario/4/')
+            else:
+                return HttpResponseRedirect('/agradecimiento/2/')
+        return super(InstructivoView, self).dispatch(*args, **kwargs)
 
 class Cuestionario1View(TemplateView):
     template_name = 'cuestionario/cuestionario1.html'
@@ -78,11 +91,14 @@ class Cuestionario1View(TemplateView):
         data.update(self.request.POST)
         for field, v in data.items():
             if isinstance(v, list):
-                data[field] = v[0]
+                if field == 'eproyectos_inei':
+                    data[field] = ','.join(v)
+                    print data[field]
+                else:
+                    data[field] = v[0]
         data['username'] = self.request.user.username
         data['password'] = self.request.user.password
         data['last_login'] = self.request.user.last_login
-
         form = UserForm(data, instance=self.request.user)
         if form.is_valid():
             form.save()
@@ -114,13 +130,35 @@ class Cuestionario2View(TemplateView):
                 return HttpResponseRedirect('/cuestionario/3/')
         return super(Cuestionario2View, self).dispatch(*args, **kwargs)
 
+    def process_elapsed_time(self):
+        if 'vparte1' in self.request.COOKIES:
+            elapsed = datetime.datetime.now() - datetime.datetime.strptime(self.request.COOKIES['vparte1'], '%Y-%m-%d %H:%M:%S')
+            self.request.session['parte1_tiempo'] = int(elapsed.total_seconds())
+            return self.request.session['parte1_tiempo']
+        else:
+            return 0
+
+    def get_context_data(self, **kwargs):
+        ctx = super(Cuestionario2View, self).get_context_data(**kwargs)
+        ctx['parte1_tiempo'] = self.process_elapsed_time()
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        response = super(Cuestionario2View, self).get(request, *args, **kwargs)
+        if 'vparte1' not in self.request.COOKIES:
+            response.set_cookie('vparte1', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 600)
+        return response
+
     def post(self, request, *args, **kwargs):
         response = HttpResponse(json.dumps(self.save()), content_type="application/json")
+        response.delete_cookie('vparte1')
         return response
 
     def save(self):
         self.request.session['cuestionario'] = self.request.POST
         self.request.session['parte1'] = True
+        self.process_elapsed_time()
+        del self.request.COOKIES['vparte1']
         return {
             'success': True,
             'error': None,
@@ -143,6 +181,26 @@ class Cuestionario3View(TemplateView):
 
     def post(self, request, *args, **kwargs):
         response = HttpResponse(json.dumps(self.save()), content_type="application/json")
+        response.delete_cookie('vparte2')
+        return response
+
+    def process_elapsed_time(self):
+        if 'vparte2' in self.request.COOKIES:
+            elapsed = datetime.datetime.now() - datetime.datetime.strptime(self.request.COOKIES['vparte2'], '%Y-%m-%d %H:%M:%S')
+            self.request.session['parte2_tiempo'] = int(elapsed.total_seconds())
+            return self.request.session['parte2_tiempo']
+        else:
+            return 0
+
+    def get_context_data(self, **kwargs):
+        ctx = super(Cuestionario3View, self).get_context_data(**kwargs)
+        ctx['parte2_tiempo'] = self.process_elapsed_time()
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        response = super(Cuestionario3View, self).get(request, *args, **kwargs)
+        if 'vparte2' not in self.request.COOKIES:
+            response.set_cookie('vparte2', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 1200)
         return response
 
     def save(self):
@@ -150,6 +208,8 @@ class Cuestionario3View(TemplateView):
         cuestionario.update(self.request.POST)
         self.request.session['cuestionario'] = cuestionario
         self.request.session['parte2'] = True
+        self.process_elapsed_time()
+        del self.request.COOKIES['vparte2']
         return {
             'success': True,
             'error': None,
@@ -167,8 +227,28 @@ class Cuestionario4View(TemplateView):
             return HttpResponseRedirect('/agradecimiento2/')
         return super(Cuestionario4View, self).dispatch(*args, **kwargs)
 
+    def process_elapsed_time(self):
+        if 'vparte3' in self.request.COOKIES:
+            elapsed = datetime.datetime.now() - datetime.datetime.strptime(self.request.COOKIES['vparte3'], '%Y-%m-%d %H:%M:%S')
+            self.request.session['parte3_tiempo'] = int(elapsed.total_seconds())
+            return self.request.session['parte3_tiempo']
+        else:
+            return 0
+
+    def get_context_data(self, **kwargs):
+        ctx = super(Cuestionario4View, self).get_context_data(**kwargs)
+        ctx['parte3_tiempo'] = self.process_elapsed_time()
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        response = super(Cuestionario4View, self).get(request, *args, **kwargs)
+        if 'vparte3' not in self.request.COOKIES:
+            response.set_cookie('vparte3', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 1200)
+        return response
+
     def post(self, request, *args, **kwargs):
         response = HttpResponse(json.dumps(self.save()), content_type="application/json")
+        response.delete_cookie('vparte3')
         return response
 
     def save(self):
@@ -177,30 +257,37 @@ class Cuestionario4View(TemplateView):
             'error': None,
             'data': 'Todo bien'
         }
-        try:
-            id = self.request.user.id or 0
-            if not Cuestionario.objects.filter(usuario=id).exists():
-                cuestionario = self.request.session.get('cuestionario', dict())
-                cuestionario.update(self.request.POST)
-                cuestionario['usuario'] = id
-                cuestionario['proyecto'] = self.request.user.proyecto or 'NINGUNO'
-                #aqui guardar
-                for field, v in cuestionario.items():
-                    if field.startswith('parte2'):
+        #try:
+        id = self.request.user.id or 0
+        if not Cuestionario.objects.filter(usuario=id).exists():
+            cuestionario = self.request.session.get('cuestionario', dict())
+            self.process_elapsed_time()
+            del self.request.COOKIES['vparte3']
+            cuestionario.update(self.request.POST)
+            cuestionario['usuario'] = id
+            cuestionario['proyecto'] = self.request.user.proyecto or 'NINGUNO'
+            #aqui guardar
+            for field, v in cuestionario.items():
+                if field.startswith('parte2'):
+                    if isinstance(v, list):
                         cuestionario[field] = v[0]
-                    elif field.startswith('parte3'):
+                elif field.startswith('parte3'):
+                    if isinstance(v, list):
                         cuestionario[field] = int(v[0])
-                form = CuestionarioForm(cuestionario)
-                form.save()
-                self.request.session['parte3'] = True
-                if self.request.session.has_key('cuestionario'):
-                    del self.request.session['cuestionario']
-            else:
-                response['data'] = 'Usted ya ha completado el cuestionario'
-        except Exception as e:
-            response['success'] = False
-            response['error'] = True
-            response['data'] = e.message
+            cuestionario['parte1_tiempo'] = self.request.session.get('parte1_tiempo')
+            cuestionario['parte2_tiempo'] = self.request.session.get('parte2_tiempo')
+            cuestionario['parte3_tiempo'] = self.request.session.get('parte3_tiempo')
+            form = CuestionarioForm(cuestionario)
+            form.save()
+            self.request.session['parte3'] = True
+            if self.request.session.has_key('cuestionario'):
+                del self.request.session['cuestionario']
+        else:
+            response['data'] = 'Usted ya ha completado el cuestionario'
+        #except Exception as e:
+        #    response['success'] = False
+        #    response['error'] = True
+        #    response['data'] = e.message
         return response
 
 
@@ -232,6 +319,7 @@ class AgradecimientoView(TemplateView):
                         cuestionario[field] = v[0]
                     elif field.startswith('parte3'):
                         cuestionario[field] = int(v[0])
+                cuestionario['parte1_tiempo'] = self.request.session.get('parte1_tiempo')
                 form = CuestionarioForm(cuestionario)
                 form.save()
                 if self.request.session.has_key('cuestionario'):

@@ -136,7 +136,7 @@
                                             </div>
                                         </div>
                                         <div class="next-prev-btn-container pull-right" style="margin-right: 10px;">
-                                            <a data-original-title="" href="javascript: save_cuestionario();"
+                                            <a data-original-title="" href="javascript: save_cuestionario(false);"
                                                class="button next" >
                                                 Continuar
                                             </a>
@@ -165,12 +165,80 @@
 
     $(document).on('ready', function() {
         shortly = new Date();
-        shortly.setSeconds(shortly.getSeconds() + 600.5);
+        shortly.setSeconds(shortly.getSeconds() + (600.5 - {{ parte1_tiempo }} ));
         $('#newPage').countdown('option', {until: shortly,
             labels1: ['Year', 'Month', 'Week', 'Day', 'Hora', 'Minuto', 'Segundo'] });
     });
+ function validar(){
+        var pregunta1 = $('#id_pregunta1'),
+            pregunta2 = $('#id_pregunta2'),
+            pregunta3 = $('#id_pregunta3'),
+            pregunta4 = $('#comprimiso_1'),
+            pregunta5 = $('#id_pregunta5'),
+            pregunta6 = $('#id_pregunta6'),
+            pregunta7 = $('#id_pregunta7');
+        if($.trim(pregunta1.val())===''){
+            pregunta1.focus();
+            pregunta1.parent().parent().addClass('error');
+            return false;
+        }else{
+            pregunta1.parent().parent().removeClass('error');
+        }
+        if($.trim(pregunta2.val())===''){
+            pregunta2.focus();
+            pregunta2.parent().parent().addClass('error');
+            return false;
+        }else{
+            pregunta2.parent().parent().removeClass('error');
+        }
+        if($.trim(pregunta3.val())===''){
+            pregunta3.focus();
+            pregunta3.parent().parent().addClass('error');
+            return false;
+        }else{
+            pregunta3.parent().parent().removeClass('error');
+        }
 
-    function save_cuestionario(){
+        if(pregunta4.is(':checked')){
+            pregunta4.parent().parent().removeClass('error');
+            if($.trim(pregunta4.val())==='SI'){
+                if($.trim(pregunta5.val())===''){
+                    pregunta5.focus();
+                    pregunta5.parent().parent().addClass('error');
+                    return false;
+                }else{
+                    pregunta5.parent().parent().removeClass('error');
+                }
+                if($.trim(pregunta6.val())===''){
+                    pregunta6.focus();
+                    pregunta6.parent().parent().addClass('error');
+                    return false;
+                }else{
+                    pregunta6.parent().parent().removeClass('error');
+                }
+                if($.trim(pregunta7.val())===''){
+                    pregunta7.focus();
+                    pregunta7.parent().parent().addClass('error');
+                    return false;
+                }else{
+                    pregunta7.parent().parent().removeClass('error');
+                }
+            }
+        }else{
+            pregunta4.parent().parent().removeClass('error');
+            return false;
+        }
+        return true;
+    }
+
+    function save_cuestionario(expires){
+        var _validar = true;
+        if(expires===false){
+            _validar = validar();
+        }else{
+            $('#compromiso_2').attr('checked', true);
+        }
+        if(_validar){
         var data = $('#id_form2').serialize();
         var options = {
             type: 'POST',
@@ -192,6 +260,7 @@
         .fail(function(data, textStatus, jqXHR) {
 
         });
+            }
     }
 
     function save_agradecimiento(){

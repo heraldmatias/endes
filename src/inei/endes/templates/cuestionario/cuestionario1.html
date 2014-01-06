@@ -7,6 +7,7 @@
     <script src="{% static 'theme/css/icomoon-font/lte-ie7.js' %}">
     </script>
     <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{% static 'endes/css/chosen.min.css' %}" />
 {% endblock %}
 {% block contenido %}
 
@@ -35,15 +36,29 @@
                                     <div class="tab-content" id="myTabContent">
                                         <div id="step1" class="tab-pane fade active in">
                                             <div class="row-fluid">
-                                                <div class="span12">
+                                                <div class="span6">
                                                     <div class="control-group">
-                                                        <label class="control-label" for="id_name">
-                                                            Nombres y Apellidos
-                                                        </label>
-
+                                                        {{ form.nombres.label_tag }}
                                                         <div class="controls">
-                                                            <input class="span12" placeholder="Nombres y apellidos" type="text"
-                                                                   id="id_name" name="name">
+                                                            {{ form.nombres }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row-fluid">
+                                                <div class="span6">
+                                                    <div class="control-group">
+                                                        {{ form.apellido_paterno.label_tag }}
+                                                        <div class="controls">
+                                                            {{ form.apellido_paterno }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="control-group">
+                                                        {{ form.apellido_materno.label_tag }}
+                                                        <div class="controls">
+                                                            {{ form.apellido_materno }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -67,7 +82,8 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <select class="span12" id="id_profesion" name="profesion">
+                                                            <select class="span12 lista" id="id_profesion" name="profesion"
+                                                                    data-original-title = "Escoja su profesión" data-placement ="top">
                                                                 <option value="">---------</option>
                                                                 {% for profesion in profesiones %}
                                                                     <option value="{{ profesion.codigo }}">{{ profesion.detalle }}</option>
@@ -80,13 +96,9 @@
                                             <div class="row-fluid">
                                                 <div class="span6">
                                                     <div class="control-group">
-                                                        <label class="control-label" for="id_edad">
-                                                            Edad
-                                                        </label>
-
+                                                        {{ form.edad.label_tag }}
                                                         <div class="controls">
-                                                            <input class="span5" placeholder="Edad" type="text"
-                                                                   id="id_edad" name="edad" maxlength="2">
+                                                            {{ form.edad }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -110,8 +122,7 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <input class="span5" placeholder="Numero de hijos" type="text"
-                                                                   id="id_hijos" name="hijos" maxlength="2">
+                                                            {{ form.hijos }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -122,8 +133,7 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <input class="span12" placeholder="Escriba las edades" type="text"
-                                                                   id="id_edades" name="edades">
+                                                            {{ form.edades }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,11 +146,13 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <b>Sus padres&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_1" value="1">
-                                                            <b>Madre Sola&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_2" value="2">
-                                                            <b>Padre Solo&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_3" value="3">
-                                                            <b>Esposo e hijos&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_4" value="4">
-                                                            <b>Solo con hijos&nbsp;&nbsp;&nbsp;</b><input type="radio" name="vive" id="vive_5" value="5">
+                                                            <input type="radio" name="vive" id="vive_1" value="1" data-original-title = "Marque esta opción si solo vive con sus padres" data-placement ="top"><b>Sus padres&nbsp;&nbsp;&nbsp;</b>
+                                                            <input type="radio" name="vive" id="vive_2" value="2" data-original-title = "Marque esta opción si solo vive con su madre" data-placement ="top"><b>Madre Sola&nbsp;&nbsp;&nbsp;</b>
+                                                            <input type="radio" name="vive" id="vive_3" value="3" data-original-title = "Marque esta opción si solo vive con su padre" data-placement ="top"><b>Padre Solo&nbsp;&nbsp;&nbsp;</b>
+                                                            <input type="radio" name="vive" id="vive_4" value="4" data-original-title = "Marque esta opción si solo vive con su esposo/a e hijos" data-placement ="top"><b>Esposo e hijos&nbsp;&nbsp;&nbsp;</b>
+                                                            <input type="radio" name="vive" id="vive_5" value="5" data-original-title = "Marque esta opción si solo vive con sus hijos" data-placement ="top"><b>Solo con hijos&nbsp;&nbsp;&nbsp;</b>
+                                                            <br><br><input type="radio" name="vive" id="vive_5" value="6" data-original-title = "Marque esta opción si ninguna de las anteriores se ajusta a su realidad. Luego complete la casilla." data-placement ="top"><b>Otro&nbsp;&nbsp;&nbsp;</b>
+                                                            {{ form.vive_otro }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -159,29 +171,33 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span4">
+                                                <div class="span6">
                                                     <div class="control-group">
                                                         <label class="control-label" for="id_proyecto">
                                                             Proyecto
                                                         </label>
 
                                                         <div class="controls">
-                                                            <input class="span12" placeholder="Proyecto" type="text" readonly
+                                                            <input class="span5" placeholder="Proyecto" type="text" readonly
                                                                    id="id_proyecto" name="proyecto" value="ENDES">
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span4">
+                                                <div class="span6">
                                                     <div class="control-group">
-                                                        <label class="control-label" for="id_texperiencia">
-                                                            Tiempo de experiencia laboral
-                                                        </label>
-
+                                                        {{ form.anos_experiencia.label_tag }}
                                                         <div class="controls">
-                                                            <input class="span12" placeholder="Tiempo de experiencia" type="text"
-                                                                   id="id_texperiencia" name="texperiencia" maxlength="2">
+                                                            {{ form.anos_experiencia }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="control-group">
+                                                        {{ form.meses_experiencia.label_tag }}
+                                                        <div class="controls">
+                                                            {{ form.meses_experiencia }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -194,9 +210,9 @@
                                                         </label>
 
                                                         <div class="controls">
-                                                            <b>Sí&nbsp;&nbsp;&nbsp;</b><input type="radio" name="experiencia_inei" id="experiencia1" value="1">
+                                                            <b>Sí&nbsp;&nbsp;&nbsp;</b><input type="radio" name="experiencia_inei" id="experiencia1" value="1" data-original-title= 'Escoja sus proyectos' data-placement='top'>
                                                             <b>Cual(es)&nbsp;&nbsp;&nbsp;</b>
-                                                            <select class="span6" id="id_eproyectos_inei" name="eproyectos_inei" readonly="readonly">
+                                                            <select class="span6" id="id_eproyectos_inei" name="eproyectos_inei" disabled multiple>
                                                                 {% for proyecto in proyectos %}
                                                                     <option value="{{ proyecto.codigo }}">{{ proyecto.detalle }}</option>
                                                                 {% endfor %}
@@ -207,19 +223,21 @@
                                                 </div>
                                             </div>
                                             <div class="row-fluid">
-                                                <div class="span8">
+                                                <div class="span12">
                                                     <div class="control-group">
                                                         <label class="control-label" for="id_experiencia">
                                                             Tiempo de experiencia en encuestas de hogares
                                                         </label>
 
                                                         <div class="controls">
-                                                            <b>INEI&nbsp;&nbsp;&nbsp;</b><input type="checkbox" name="einei" id="id_hogares1" value="1">
-                                                            <input class="span2" placeholder="Tiempo" type="text"
-                                                                   id="id_einei" name="tiempo_einei">
-                                                            <b>Otra Institución&nbsp;&nbsp;&nbsp;</b><input type="checkbox" name="eotro" id="id_hogares2" value="2">
-                                                            <input class="span2" placeholder="Tiempo" type="text"
-                                                                   id="id_eotra" name="tiempo_eotro">
+                                                            <input type="checkbox" name="einei" id="id_einei" value="1"><b> INEI</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <b>Años:&nbsp;&nbsp;</b>{{ form.anos_einei }}
+                                                            <b>Meses:&nbsp;&nbsp;</b>{{ form.meses_einei }}<br><br>
+                                                            <input type="checkbox" name="eotro" id="id_eotro" value="2"><b>Otra Institución</b>
+                                                            <b>Años:&nbsp;&nbsp;</b>{{ form.anos_eotro }}
+                                                            <b>Meses:&nbsp;&nbsp;</b>{{ form.meses_eotro }}<br><br>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <b>Institución:&nbsp;&nbsp;</b>{{ form.institucion_eotro }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -227,13 +245,10 @@
                                             <div class="row-fluid">
                                                 <div class="span8">
                                                     <div class="control-group">
-                                                        <label class="control-label" for="id_experiencia">
-                                                            ODEI:
-                                                        </label>
+                                                        {{ form.odei.label_tag }}
 
                                                         <div class="controls">
-                                                            <input class="span6" placeholder="Escriba aquí la ODEI" type="text"
-                                                                   id="id_eodei" name="odei">
+                                                            {{ form.odei }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,30 +291,22 @@
     </div>
 {% endblock %}
 {% block js %}
+    <script src="{% static 'endes/js/chosen.jquery.min.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
 
     var blank = new RegExp('\\s{2}', 'g'),
         letter = new RegExp('^[A-Za-zñÑá-úÁ-Ú ]+$'),
         rletter = new RegExp('[^A-Za-zñÑá-úÁ-Ú ]','g'),
-        number = new RegExp('^[0-9]+$'),
+        number = new RegExp('^[1-9][0-9]$'),
         rnumber = new RegExp('[^1-9]','g'),
         edades = new RegExp('^[0-9]{1,2}(,[0-9]{1,2})*$'),
         redades = new RegExp('^[0-9]{1,2}(,[0-9]{1,2})*$', 'g'),
-        camposValidos = new Array();
+        hijos = new RegExp('^[0-9]+$');
 
-    camposValidos[0] = false;//nombres
-    camposValidos[1] = false;//instruccion
-    camposValidos[2] = false;//proyecto
-    camposValidos[3] = false;//puesto
-    camposValidos[4] = false;//profesion
-    camposValidos[5] = false;//experiencia proyecto
-    camposValidos[6] = false;//experiencia odei
-    camposValidos[7] = false;//edades
-    camposValidos[8] = false;//edad
-    camposValidos[9] = false;//hijos
-    camposValidos[10] = false;//tiempo experiencia
-    camposValidos[11] = false;
-    camposValidos[12] = false;
+    function activate_tooltips(){
+        $('input').tooltip('hide');
+        $('select').tooltip('hide');
+    }
 
     function save_cuestionario(){
         var data = $('#id_form').serialize();
@@ -320,9 +327,17 @@
                 if(data['success']){
                     location.href = '{% url 'instructivo' %}';
                 }else{
-                    var msg='Corrija los siguientes errores:\n\n';
+                    //activate_tooltips();
+                    $('.control-group').removeClass('error');
+                    var msg='Corrija los errores marcados en rojo porfavor!';
                     $.each(data['data'],function(k,v){
-                        msg += k + ' - ' + v + '\n';
+                        //msg += k + ' - ' + v + '\n';
+                        var el = $('#id_'+k);
+                        if(k === 'eproyectos_inei'){
+                            el = $('#experiencia1');
+                        }
+                        el.parent().parent().addClass('error');
+                        el.tooltip('show');
                     });
                     alert(msg);
                 }
@@ -334,215 +349,163 @@
     }
 
     function validar(){
-        /*if(!camposValidos[0]){
-            alert('Debe ingresar el nombre');
-            $('#id_name').focus();
-            return false;
-        }else if(!camposValidos[1]){
-            alert('Debe ingresar el grado de instrucción');
-            $('#id_instruccion').focus();
-            return false;
-        }else if(!camposValidos[4]){
-            alert('Debe ingresar la profesión');
-            $('#id_profesion').focus();
-            return false;
-        }else if(!camposValidos[2]){
-            alert('Debe ingresar el proyecto');
-            $('#id_profesion').focus();
-            return false;
-        }else if(!camposValidos[3]){
-            alert('Debe ingresar el puesto');
-            $('#id_profesion').focus();
-            return false;
-        }else if(!camposValidos[7]){
-            alert('Debe corregir las edades\nLas edades deben ir separadas por comas y debe coincidir con el número de hijos');
-            return false;
-        }*/
+
         return true;
     }
 
-    $('input[name="experiencia"]').on('click', function(e){
-        if (e.target.value === '1'){
-            $('#id_eproyecto').removeAttr('readonly');
-        }else{
-            $('#id_eproyecto').attr('readonly', 'readonly');
-            $('#id_eproyecto').val('');
-        }
-    });
-
-    $('input[name="ehogares"]').on('click', function(e){
-        if (e.target.value === '2'){
-            $('#id_eodei').removeAttr('readonly');
-        }else{
-            $('#id_eodei').attr('readonly', 'readonly');
-            $('#id_eodei').val('');
-        }
-    });
-
-    $('#id_name').on('input', function(e){
+    $('.texto').on('input blur', function(e){
         var valor = $(this).val().toUpperCase();
         if(valor !== '' ){
             if(!blank.test(valor) && letter.test(valor)){
                 $(this).val(valor);
-                camposValidos[0] = true;
+                $(this).parent().parent().removeClass('error');
+                $(this).tooltip('hide');
             }else{
                 valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
                 $(this).val(valor);
             }
         }else{
-            camposValidos[0] = false;
+            $(this).parent().parent().addClass('error');
         }
     });
 
-    $('#id_instruccion').on('input', function(e){
-        var valor = $(this).val().toUpperCase();
-        if(valor !== '' ){
-            if(!blank.test(valor) && letter.test(valor)){
-                $(this).val(valor);
-                camposValidos[1] = true;
-            }else{
-                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[1] = false;
-        }
-    });
-
-    $('#id_proyecto').on('input', function(e){
-        var valor = $(this).val().toUpperCase();
-        if(valor !== '' ){
-            if(!blank.test(valor) && letter.test(valor)){
-                $(this).val(valor);
-                camposValidos[2] = true;
-            }else{
-                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[2] = false;
-        }
-    });
-
-    $('#id_puesto').on('input', function(e){
-        var valor = $(this).val().toUpperCase();
-        if(valor !== '' ){
-            if(!blank.test(valor) && letter.test(valor)){
-                $(this).val(valor);
-                camposValidos[3] = true;
-            }else{
-                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[3] = false;
-        }
-    });
-
-    $('#id_profesion').on('input', function(e){
-        var valor = $(this).val().toUpperCase();
-        if(valor !== '' ){
-            if(!blank.test(valor) && letter.test(valor)){
-                $(this).val(valor);
-                camposValidos[4] = true;
-            }else{
-                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[4] = false;
-        }
-    });
-
-    $('#id_eproyecto').on('input', function(e){
-        var valor = $(this).val().toUpperCase();
-        if(valor !== '' ){
-            if(!blank.test(valor) && letter.test(valor)){
-                $(this).val(valor);
-                camposValidos[5] = true;
-            }else{
-                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[5] = false;
-        }
-    });
-
-    $('#id_eodei').on('input', function(e){
-        var valor = $(this).val().toUpperCase();
-        if(valor !== '' ){
-            if(!blank.test(valor) && letter.test(valor)){
-                $(this).val(valor);
-                camposValidos[6] = true;
-            }else{
-                valor = $.trim(valor.replace(blank, ' ').replace(rletter, ''));
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[6] = false;
-        }
-    });
-
-    $('#id_edad').on('input', function(e){
+    $('.numero').on('input blur', function(e){
         var valor = $.trim($(this).val());
         if(valor !== '' ){
-            if(number.test(valor)){
+            if(hijos.test(valor)){
                 $(this).val(valor);
-                camposValidos[8] = true;
+                $(this).parent().parent().removeClass('error');
+                $(this).tooltip('hide');
+            }else{
+                valor = $.trim(valor.replace(rnumber, ' '));
+                $(this).val(valor);
+            }
+        }else{
+            $(this).parent().parent().addClass('error');
+        }
+    });
+
+    $('.lista').on('input blur', function(e){
+        var valor = $(this).val();
+        if(valor !== '' ){
+            $(this).parent().parent().removeClass('error');
+            $(this).tooltip('hide');
+        }else{
+            $(this).parent().parent().addClass('error');
+        }
+    });
+
+    $('#id_edad').on('input blur', function(e){
+        var valor = $(this).val().toUpperCase();
+        if(valor !== '' ){
+            if(number.test(valor)){
+                if(parseInt(valor)>=18){
+                    $(this).val(valor);
+                    $(this).parent().parent().removeClass('error');
+                    $(this).tooltip('hide');
+                }else{
+                    $(this).val('');
+                }
             }else{
                 valor = valor.replace(rnumber, '');
                 $(this).val(valor);
             }
         }else{
-            camposValidos[8] = false;
+            $(this).parent().parent().addClass('error');
         }
     });
 
-    $('#id_hijos').on('input', function(e){
+    $('#id_hijos').on('input blur', function(e){
         var valor = $.trim($(this).val());
         if(valor !== '' ){
-            if(number.test(valor)){
+            if(hijos.test(valor)){
                 $(this).val(valor);
-                camposValidos[9] = false;
+                if(parseInt(valor)>0){
+                    $('#id_edades').attr('disabled', false);
+                }else{
+                    $('#id_edades').attr('disabled', true);
+                }
             }else{
                 valor = valor.replace(rnumber, '');
                 $(this).val(valor);
             }
         }else{
-            camposValidos[9] = false;
+            $('#id_edades').attr('disabled', true);
         }
     });
 
-    $('#id_texperiencia').on('input', function(e){
-        var valor = $.trim($(this).val());
-        if(valor !== '' ){
-            if(number.test(valor)){
-                $(this).val(valor);
-                camposValidos[10] = true;
-            }else{
-                valor = valor.replace(rnumber, '');
-                $(this).val(valor);
-            }
-        }else{
-            camposValidos[10] = false;
-        }
-    });
 
-    $('#id_edades').on('blur', function(e){
+    $('#id_edades').on('blur input', function(e){
         var valor = $(this).val(),
             nhijos = parseInt($('#id_hijos').val());
-        camposValidos[7] = false;
-        if(!edades.test(valor)){
-            $(this).val(valor);
-        }else{
-            if( valor.split(',').length === nhijos){
-                camposValidos[7] = true;
+
+        if(edades.test(valor)){
+            var valores = valor.split(',');
+            if(valores.length === parseInt(nhijos)){
+                $(this).val(valor);
+                $(this).parent().parent().removeClass('error');
+                $(this).tooltip('hide');
+            }else{
+                $(this).parent().parent().addClass('error');
             }
+        }else{
+            $(this).parent().parent().addClass('error');
         }
     });
 
-    //Tooltip
-    $('a').tooltip('hide');
+    $('input[name="vive"]').on('click', function(e){
+        if(e.target.value === '6'){
+            $('#id_vive_otro').attr('disabled', false);
+        }else{
+            $('#id_vive_otro').attr('disabled', true);
+        }
+    });
+
+    $('input[name="experiencia_inei"]').on('click', function(e){
+        var proyectos = $('#id_eproyectos_inei');
+        if (e.target.value === '1'){
+            proyectos.prop('disabled', false).trigger("chosen:updated");
+        }else{
+            proyectos.val('');
+            proyectos.prop('disabled', true).trigger("chosen:updated");
+        }
+    });
+
+    $('#id_einei').on('change', function(e){
+        var estado = !$(this).is(':checked'),
+                anos= $('#id_anos_einei'),
+                meses=$('#id_meses_einei');
+        if(estado){
+            $(this).parent().parent().removeClass('error');
+        }
+        anos.val(''); meses.val('');
+        anos.attr('disabled', estado);
+        meses.attr('disabled', estado);
+    });
+
+    $('#id_eotro').on('change', function(e){
+        var estado = !$(this).is(':checked'),
+                institucion=$('#id_institucion_eotro'),
+                anos = $('#id_anos_eotro'),
+                meses = $('#id_meses_eotro');
+        if(estado){
+            $(this).parent().parent().removeClass('error');
+        }
+        institucion.val(''); anos.val(''); meses.val('');
+        institucion.attr('disabled', estado);
+        anos.attr('disabled', estado);
+        meses.attr('disabled', estado);
+    });
+
+    $("#id_eproyectos_inei").chosen({
+        no_results_text: "No se encontro el proyecto!",
+        placeholder_text_multiple: 'Escoja sus proyectos'
+    });
+
+    $(document).on('ready', function(){
+        //Tooltip
+        activate_tooltips();
+        $('#id_nombres').focus();
+    });
     </script>
 {% endblock %}

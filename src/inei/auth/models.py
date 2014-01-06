@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from django.core.exceptions import ValidationError
 from inei.auth import CommaSeparatedStrField
 
 __author__ = 'holivares'
@@ -6,6 +8,9 @@ from django.utils import timezone
 from django.contrib.auth.hashers import (
     check_password, make_password, is_password_usable)
 
+def validate_edad(value):
+    if value < 18:
+        raise ValidationError('Su edad debe ser mayor a 18')
 
 class EstadoCivil(models.Model):
     codigo = models.AutoField(primary_key=True, db_index=True)
@@ -57,26 +62,36 @@ class User(models.Model):
     is_admin = models.BooleanField(default=False)
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(default=timezone.now)
-    proyecto = models.CharField(max_length=50)
     is_active = True
-    name = models.CharField(max_length=150, null=True, blank=True)
+    nombres = models.CharField(max_length=70, null=True, blank=True)
+    apellido_paterno = models.CharField(max_length=30, null=True, blank=True)
+    apellido_materno = models.CharField(max_length=30, null=True, blank=True)
     instruccion = models.ForeignKey(Instruccion, null=True, blank=True)
     profesion = models.CharField(max_length=3, null=True, blank=True)
-    edad = models.IntegerField(max_length=2, null=True, blank=True)
+    edad = models.IntegerField(max_length=2, validators=[validate_edad],
+                               null=True, blank=True)
     civil = models.ForeignKey(EstadoCivil, null=True, blank=True )
     hijos = models.IntegerField(max_length=2, null=True, blank=True)
     edades = models.CommaSeparatedIntegerField(max_length=100, null=True, blank=True)
     vive = models.IntegerField(null=True, blank=True)
+    vive_otro = models.CharField(max_length=30, null=True, blank=True)
     puesto = models.ForeignKey(Puesto, null=True, blank=True)
     proyecto = models.CharField(max_length=100, null=True, blank=True)
-    texperiencia = models.IntegerField(null=True, blank=True)
+    anos_experiencia = models.IntegerField(u'Años de experiencia laboral',
+                                           null=True, blank=True)
+    meses_experiencia = models.IntegerField(u'Meses de experiencia laboral',
+                                            null=True, blank=True)
     experiencia_inei = models.IntegerField(null=True, blank=True)
-    eproyectos_inei = CommaSeparatedStrField(max_length=500, null=True, blank=True)
+    eproyectos_inei = models.CharField(max_length=500, null=True, blank=True)
     einei = models.BooleanField(default=False)
-    tiempo_einei = models.IntegerField(null=True, blank=True)
+    anos_einei = models.IntegerField(null=True, blank=True)
+    meses_einei = models.IntegerField(null=True, blank=True)
     eotro = models.BooleanField(default=False)
-    tiempo_eotro = models.IntegerField(null=True, blank=True)
-    odei = models.CharField(max_length=70, null=True, blank=True)
+    institucion_eotro = models.CharField(max_length=100, null=True, blank=True)
+    anos_eotro = models.IntegerField(null=True, blank=True)
+    meses_eotro = models.IntegerField(null=True, blank=True)
+    odei = models.CharField(u'Oficina Departamental de Estadística e Informática',
+                            max_length=70, null=True, blank=True)
     ozei = models.CharField(max_length=70, null=True, blank=True)
 
 
@@ -128,12 +143,6 @@ class User(models.Model):
 
     def has_usable_password(self):
         return is_password_usable(self.password)
-
-    def get_full_name(self):
-        raise NotImplementedError()
-
-    def get_short_name(self):
-        raise NotImplementedError()
 
     def get_full_name(self):
         # The user is identified by their username address
