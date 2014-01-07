@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from inei.auth.models import User, Odei
+from inei.auth.models import Odei
 import csv
 from django.http import HttpResponse
 from django.template import loader, Context

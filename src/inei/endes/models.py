@@ -2,11 +2,11 @@
 __author__ = 'holivares'
 
 from django.db import models
-from inei.auth.models import User
+from inei.auth.models import Usuario
 
 
 class Cuestionario(models.Model):
-    usuario = models.ForeignKey(User, db_index=True)
+    usuario = models.ForeignKey(Usuario, db_index=True)
     proyecto = models.CharField(max_length=50, db_index=True)
     parte1_pregunta1 = models.TextField(null=True, blank=True)
     parte1_pregunta2 = models.TextField(null=True, blank=True)

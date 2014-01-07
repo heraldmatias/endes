@@ -82,7 +82,7 @@ class Puesto(models.Model):
         return u'%s' % self.detalle
 
 
-class User(models.Model):
+class Usuario(models.Model):
     username = models.CharField(
         max_length=50,
         unique=True,

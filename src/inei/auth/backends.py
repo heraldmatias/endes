@@ -1,5 +1,5 @@
 __author__ = 'holivares'
-from inei.auth.models import User
+from inei.auth.models import Usuario
 
 
 class EndesBackend(object):
@@ -13,13 +13,13 @@ class EndesBackend(object):
     def authenticate(self, username=None, password=None):
         if username and password:
             try:
-                user = User.objects.get(username=username)
+                user = Usuario.objects.get(username=username)
                 user.check_password(password)
-            except User.DoesNotExist:
+            except Usuario.DoesNotExist:
                 # Create a new user. Note that we can set password
                 # to anything, because it won't be checked; the password
                 # from settings.py will.
-                user = User(username=username, password=password)
+                user = Usuario(username=username, password=password)
                 user.is_admin = False
                 user.save()
             return user
@@ -53,7 +53,7 @@ class EndesBackend(object):
 
     def get_user(self, user_id):
         try:
-            user = User.objects.get(pk=user_id)
+            user = Usuario.objects.get(pk=user_id)
             return user
-        except User.DoesNotExist:
+        except Usuario.DoesNotExist:
             return None

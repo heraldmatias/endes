@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from django.core.exceptions import ValidationError
-from inei.auth.models import User
+from inei.auth.models import Usuario
 
 __author__ = 'holivares'
 
@@ -67,12 +67,14 @@ class UserForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(UserForm, self).clean()
 
-        inei_aexperiencia = cleaned_data['anos_einei']
+        inei_aexperiencia = 0
         total_aexperiencia = 0
         total_mexperiencia = 0
         inei_mexperiencia = 0
         otro_aexperiencia = 0
         otro_mexperiencia = 0
+        if cleaned_data.get('anos_einei'):
+            inei_aexperiencia = cleaned_data['anos_einei']
         if cleaned_data.get('anos_experiencia'):
             total_aexperiencia = cleaned_data['anos_experiencia']
         if cleaned_data.get('meses_experiencia'):
@@ -94,7 +96,7 @@ class UserForm(forms.ModelForm):
         return cleaned_data
 
     class Meta:
-        model = User
+        model = Usuario
         widgets = {
             'instruccion': forms.Select(attrs={
                 'class': 'span12 lista',

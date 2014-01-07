@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from inei.auth.forms import UserForm
-from inei.auth.models import User, Profesion, Proyectos, Odei, Region
+from inei.auth.models import Profesion, Proyectos, Odei, Region
 from inei.endes.models import Cuestionario
 from django.views.generic import FormView, TemplateView
 from django.http.response import HttpResponseRedirect, HttpResponse
