@@ -21,7 +21,6 @@ class EndesBackend(object):
                 # from settings.py will.
                 user = User(username=username, password=password)
                 user.is_admin = False
-                user.is_superuser = False
                 user.save()
             return user
         return None
