@@ -371,6 +371,9 @@
                         if(k === 'experiencia_inei'){
                             el = $('#experiencia2');
                         }
+                        if(k === '__all__'){
+                            $('#id_anos_einei').parent().parent().addClass('error');
+                        }
                         el.parent().parent().addClass('error');
                         el.tooltip('show');
                     });

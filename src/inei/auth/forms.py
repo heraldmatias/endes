@@ -19,6 +19,13 @@ class UserForm(forms.ModelForm):
             self.fields['eproyectos_inei'].required = True
         if self.data.get('vive') == '6':
             self.fields['vive_otro'].required = True
+        if self.data.get('einei'):
+            self.fields['anos_einei'].required = True
+            self.fields['meses_einei'].required = True
+        if self.data.get('eotro'):
+            self.fields['anos_eotro'].required = True
+            self.fields['meses_eotro'].required = True
+            self.fields['institucion_eotro'].required = True
 
 
     def clean_edades(self):
@@ -33,7 +40,7 @@ class UserForm(forms.ModelForm):
                 for hedad in edades:
                     if int(hedad) > edad:
                         raise ValidationError('corregir edades')
-        return hijos
+        return cleaned_data['edades']
 
     def clean_anos_experiencia(self):
         cleaned_data = self.cleaned_data
@@ -44,25 +51,47 @@ class UserForm(forms.ModelForm):
                 raise ValidationError('corregir los años de experiencia')
         return experiencia
 
-    # def clean_meses_experiencia(self):
-    #     cleaned_data = self.cleaned_data
-    #     mexperiencia = cleaned_data['meses_experiencia']
-    #     aexperiencia = cleaned_data['anos_experiencia']*12
-    #     experiencia = (mexperiencia+aexperiencia) / 12
-    #     if 'edad' in cleaned_data:
-    #         edad = (cleaned_data['edad']-18)
-    #         if experiencia > edad:
-    #             raise ValidationError('corregir los años de experiencia')
-    #     return mexperiencia
-    #
-    # def clean_anos_einei(self):
-    #     cleaned_data = self.cleaned_data
-    #     aexperiencia = cleaned_data['anos_einei']
-    #     if 'anos_experiencia' in cleaned_data:
-    #         experiencia = cleaned_data['anos_experiencia']
-    #         if aexperiencia > experiencia:
-    #             raise ValidationError('corregir los años de experiencia')
-    #     return aexperiencia
+    def clean_meses_experiencia(self):
+        cleaned_data = self.cleaned_data
+        mexperiencia = cleaned_data['meses_experiencia']
+        aexperiencia = 0
+        if 'anos_experiencia' in cleaned_data:
+            aexperiencia = cleaned_data['anos_experiencia']*12
+        experiencia = (mexperiencia+aexperiencia) / 12
+        if 'edad' in cleaned_data:
+            edad = (cleaned_data['edad']-18)
+            if experiencia > edad:
+                raise ValidationError('corregir los años de experiencia')
+        return mexperiencia
+
+    def clean(self):
+        cleaned_data = super(UserForm, self).clean()
+
+        inei_aexperiencia = cleaned_data['anos_einei']
+        total_aexperiencia = 0
+        total_mexperiencia = 0
+        inei_mexperiencia = 0
+        otro_aexperiencia = 0
+        otro_mexperiencia = 0
+        if cleaned_data.get('anos_experiencia'):
+            total_aexperiencia = cleaned_data['anos_experiencia']
+        if cleaned_data.get('meses_experiencia'):
+            total_mexperiencia = cleaned_data['meses_experiencia']
+        if cleaned_data.get('anos_einie'):
+            inei_aexperiencia = cleaned_data['anos_einei']
+        if cleaned_data.get('meses_einei'):
+            inei_mexperiencia = cleaned_data['meses_einei']
+        if cleaned_data.get('anos_eotro'):
+            otro_aexperiencia = cleaned_data['anos_eotro']
+        if cleaned_data.get('meses_eotro'):
+            otro_mexperiencia = cleaned_data['meses_eotro']
+        total_inei = ((inei_aexperiencia*12)+inei_mexperiencia)
+        total_otro = ((otro_aexperiencia*12)+otro_mexperiencia)
+        total = ((total_aexperiencia*12)+total_mexperiencia)
+
+        if (total_inei+total_otro) > total:
+            raise forms.ValidationError('corregir los años de experiencia')
+        return cleaned_data
 
     class Meta:
         model = User
